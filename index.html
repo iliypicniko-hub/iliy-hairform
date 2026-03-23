@@ -613,7 +613,7 @@ async function initAdmin() {
       const allImgs = [...(s.hairImages||[]), ...(s.makeupImages||[]), ...(s.lengthImages||[])];
       const imgHtml = allImgs.length > 0
         ? `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">写真（全${allImgs.length}枚）</div>
-           <div class="admin-photos">${allImgs.map(u=>`<div class="admin-photo"><img src="${u}" onerror="this.style.display='none'"></div>`).join('')}</div>`
+           <div class="admin-photos">${allImgs.map(u=>`<div class="admin-photo"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`
         : '';
       return `
       <div class="admin-card">
@@ -674,7 +674,7 @@ async function initSalonView(id) {
       return `
         <div class="salon-section">
           <div class="salon-sec-title">${title}（${imgs.length}枚）</div>
-          <div class="salon-photos">${imgs.map(u=>`<div class="salon-photo" onclick="openLightbox('${u}')"><img src="${u}" onerror="this.style.display='none'"></div>`).join('')}</div>
+          <div class="salon-photos">${imgs.map(u=>`<div class="salon-photo" onclick="openLightbox('${u}')"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>
         </div>`;
     };
 
@@ -682,7 +682,7 @@ async function initSalonView(id) {
       <div class="salon-card">
         <div class="salon-head">
           <div class="salon-name">${s.name} 様</div>
-          <div class="salon-meta">撮影日：${s.shootDate}　／　回答日時：${s.submittedAt}</div>
+          <div class="salon-meta">撮影日：${s.shootDate ? s.shootDate.slice(0,10) : ''}　／　回答日時：${s.submittedAt}</div>
         </div>
         <div class="salon-body">
           <div class="salon-section">
