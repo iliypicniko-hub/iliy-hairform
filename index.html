@@ -132,6 +132,20 @@
   .btn-copy:hover { background: var(--accent); }
   .btn-copy.copied { background: var(--success); }
   .badge-new { display: inline-block; background: var(--accent); color: white; font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
+  .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .dash-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 14px; padding: 24px 20px; cursor: pointer; transition: all 0.2s; }
+  .dash-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .dash-card.new { border-left: 4px solid var(--accent); }
+  .dash-card.done { border-left: 4px solid var(--border); opacity: 0.7; }
+  .dash-count { font-size: 42px; font-weight: 500; line-height: 1; margin-bottom: 8px; }
+  .dash-card.new .dash-count { color: var(--accent); }
+  .dash-card.done .dash-count { color: var(--muted); }
+  .dash-label { font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 4px; }
+  .dash-sub { font-size: 11px; color: var(--muted); }
+  .list-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .btn-back-list { padding: 8px 14px; background: transparent; border: 1px solid var(--border); border-radius: 8px; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .btn-back-list:hover { border-color: var(--muted); color: var(--dark); }
+  .list-title { font-size: 16px; font-weight: 500; color: var(--dark); }
 
   /* SALON VIEW */
   .salon-wrap-inner { max-width: 600px; margin: 0 auto; padding: 24px 20px 60px; }
@@ -591,69 +605,104 @@ async function submitForm() {
 // ============================================================
 // ADMIN
 // ============================================================
+let allSubmissions = [];
+
 async function initAdmin() {
   const wrap = document.getElementById('admin-wrap');
   try {
     const result = await apiGet({ action: 'getAll' });
     if (!result.ok) throw new Error(result.error);
-
-    const all = result.data.reverse();
-    const newCount = all.filter(s => !s.read).length;
-    document.getElementById('admin-sub').textContent = `${all.length}件の回答 / 未確認 ${newCount}件`;
-
-    if (all.length === 0) {
-      wrap.innerHTML = '<p style="text-align:center;padding:60px 0;color:var(--muted);font-size:14px">まだ回答がありません</p>';
-      return;
-    }
-
-    const baseUrl = location.origin + location.pathname;
-    wrap.innerHTML = all.map(s => {
-      const shareUrl = `${baseUrl}?sid=${s.id}`;
-      const badge = !s.read ? '<span class="badge-new">NEW</span>' : '';
-      const mkPhotoSection = (label, imgs) => {
-        if (!imgs || imgs.length === 0) return '';
-        return `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">${label}（${imgs.length}枚）</div>
-          <div class="admin-photos">${imgs.map(u=>`<div class="admin-photo"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`;
-      };
-      const imgHtml = [
-        mkPhotoSection('ヘアセットイメージ', s.hairImages),
-        mkPhotoSection('メイクイメージ', s.makeupImages),
-        mkPhotoSection('髪の長さ写真', s.lengthImages),
-      ].filter(Boolean).join('');
-      return `
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <div><span class="admin-card-name">${s.name} 様</span>${badge}</div>
-          <div class="admin-card-meta">${fmtDateTime(s.submittedAt)}</div>
-        </div>
-        <div class="admin-card-body">
-          <div class="admin-grid">
-            <div><div class="admin-fl">撮影日</div>${fmtDate(s.shootDate)}</div>
-            <div><div class="admin-fl">髪の長さ</div>${s.hairLength}</div>
-            <div><div class="admin-fl">パーマ</div>${s.perm}</div>
-            <div><div class="admin-fl">毛量 / 髪質</div>${s.hairVolume} / ${s.hairTexture}</div>
-            <div><div class="admin-fl">肌質</div>${s.skinType}</div>
-            <div><div class="admin-fl">コンタクト</div>${s.contact}</div>
-            <div><div class="admin-fl">メイクイメージ</div>${s.makeupImage}</div>
-            ${s.allergyCosm ? `<div><div class="admin-fl">肌荒れ化粧品</div>${s.allergyCosm}</div>` : ''}
-          </div>
-          ${s.memo ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px">メモ：<span style="color:var(--dark)">${s.memo}</span></div>` : ''}
-          ${imgHtml}
-          <div class="share-box">
-            <div class="share-title">美容室へ共有するURL（この予約専用）</div>
-            <div class="share-row">
-              <span class="share-url-text">${shareUrl}</span>
-              <button class="btn-copy" onclick="copyUrl('${shareUrl}',this)">コピー</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-
+    allSubmissions = result.data.reverse();
+    showDashboard();
   } catch(err) {
-    wrap.innerHTML = `<p style="text-align:center;padding:60px 0;color:var(--error);font-size:14px">読み込みに失敗しました。<br>ページを再読み込みしてください。</p>`;
+    wrap.innerHTML = '<p style="text-align:center;padding:60px 0;color:var(--error);font-size:14px">読み込みに失敗しました。<br>ページを再読み込みしてください。</p>';
     document.getElementById('admin-sub').textContent = 'エラー';
   }
+}
+
+function showDashboard() {
+  const newItems = allSubmissions.filter(s => !s.read);
+  const doneItems = allSubmissions.filter(s => s.read);
+  document.getElementById('admin-sub').textContent = `全${allSubmissions.length}件`;
+  const wrap = document.getElementById('admin-wrap');
+  wrap.innerHTML = `
+    <div class="dashboard">
+      <div class="dash-card new" onclick="showList('new')">
+        <div class="dash-count">${newItems.length}</div>
+        <div class="dash-label">新着・未対応</div>
+        <div class="dash-sub">URLをまだコピーしていない回答</div>
+      </div>
+      <div class="dash-card done" onclick="showList('done')">
+        <div class="dash-count">${doneItems.length}</div>
+        <div class="dash-label">対応済み</div>
+        <div class="dash-sub">URLをコピー済みの回答</div>
+      </div>
+    </div>
+    ${newItems.length === 0 ? '<p style="text-align:center;padding:20px 0;color:var(--muted);font-size:13px">新着の回答はありません</p>' : ''}
+  `;
+}
+
+function buildCard(s) {
+  const baseUrl = location.origin + location.pathname;
+  const shareUrl = `${baseUrl}?sid=${s.id}`;
+  const badge = !s.read ? '<span class="badge-new">NEW</span>' : '';
+  const cardStyle = s.read ? 'opacity:0.65' : '';
+  const mkPhotoSection = (label, imgs) => {
+    if (!imgs || imgs.length === 0) return '';
+    return `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">${label}（${imgs.length}枚）</div>
+      <div class="admin-photos">${imgs.map(u => `<div class="admin-photo"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`;
+  };
+  const imgHtml = [
+    mkPhotoSection('ヘアセットイメージ', s.hairImages),
+    mkPhotoSection('メイクイメージ', s.makeupImages),
+    mkPhotoSection('髪の長さ写真', s.lengthImages),
+  ].filter(Boolean).join('');
+  return `
+  <div class="admin-card" id="card-${s.id}" style="${cardStyle}">
+    <div class="admin-card-head">
+      <div><span class="admin-card-name">${s.name} 様</span>${badge}</div>
+      <div class="admin-card-meta">${fmtDateTime(s.submittedAt)}</div>
+    </div>
+    <div class="admin-card-body">
+      <div class="admin-grid">
+        <div><div class="admin-fl">撮影日</div>${fmtDate(s.shootDate)}</div>
+        <div><div class="admin-fl">髪の長さ</div>${s.hairLength}</div>
+        <div><div class="admin-fl">パーマ</div>${s.perm}</div>
+        <div><div class="admin-fl">毛量 / 髪質</div>${s.hairVolume} / ${s.hairTexture}</div>
+        <div><div class="admin-fl">肌質</div>${s.skinType}</div>
+        <div><div class="admin-fl">コンタクト</div>${s.contact}</div>
+        <div><div class="admin-fl">メイクイメージ</div>${s.makeupImage}</div>
+        ${s.allergyCosm ? `<div><div class="admin-fl">肌荒れ化粧品</div>${s.allergyCosm}</div>` : ''}
+      </div>
+      ${s.memo ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px">メモ：<span style="color:var(--dark)">${s.memo}</span></div>` : ''}
+      ${imgHtml}
+      <div class="share-box">
+        <div class="share-title">美容室へ共有するURL（この予約専用）</div>
+        <div class="share-row">
+          <span class="share-url-text">${shareUrl}</span>
+          <button class="btn-copy" onclick="copyUrl('${shareUrl}',this,'${s.id}')">コピー</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function showList(type) {
+  const items = type === 'new'
+    ? allSubmissions.filter(s => !s.read)
+    : allSubmissions.filter(s => s.read);
+  const title = type === 'new' ? '新着・未対応' : '対応済み';
+  const wrap = document.getElementById('admin-wrap');
+  const cards = items.length === 0
+    ? '<p style="text-align:center;padding:40px 0;color:var(--muted);font-size:14px">該当する回答はありません</p>'
+    : items.map(buildCard).join('');
+  wrap.innerHTML = `
+    <div class="list-header">
+      <button class="btn-back-list" onclick="showDashboard()">← トップへ</button>
+      <span class="list-title">${title}（${items.length}件）</span>
+    </div>
+    ${cards}
+  `;
 }
 
 function fmtDate(str) {
@@ -680,11 +729,19 @@ function fmtDateTime(str) {
   return str;
 }
 
-function copyUrl(url, btn) {
+function copyUrl(url, btn, id) {
   navigator.clipboard.writeText(url).then(() => {
     btn.textContent = 'コピー完了!';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
+    // 既読にする
+    const card = btn.closest('.admin-card');
+    if (card) {
+      const badge = card.querySelector('.badge-new');
+      if (badge) badge.remove();
+      card.style.opacity = '0.6';
+    }
+    fetch(API, { method: 'POST', body: JSON.stringify({ action: 'markRead', id }) });
   });
 }
 
