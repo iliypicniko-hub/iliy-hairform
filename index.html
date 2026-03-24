@@ -212,6 +212,17 @@ async function apiGet(params) {
 }
 
 // ============================================================
+// FORM STATE（すべての変数を最初にまとめて宣言）
+// ============================================================
+let optionType = '';
+let currentStep = 0;
+let formData = {};
+const photoStore = {
+  'f-hair-images':[], 'f-makeup-images':[], 'f-length-images':[],
+  'm-hair-images':[], 'm-length-images':[]
+};
+
+// ============================================================
 // ROUTING
 // ============================================================
 const urlParams = new URLSearchParams(location.search);
@@ -231,25 +242,17 @@ if (sid) {
 }
 
 // ============================================================
-// FORM STATE
+// STEPS
 // ============================================================
-let optionType = ''; // 'female', 'male', 'both'
-let currentStep = 0;
-const photoStore = {
-  'f-hair-images':[], 'f-makeup-images':[], 'f-length-images':[],
-  'm-hair-images':[], 'm-length-images':[]
-};
-
-// Step definitions per option type
 function getSteps() {
   const common1 = ['option', 'basic'];
-  const female = ['f-hair', 'f-makeup', 'f-photo'];
-  const male   = ['m-hair', 'm-photo'];
+  const female  = ['f-hair', 'f-makeup', 'f-photo'];
+  const male    = ['m-hair', 'm-photo'];
   const confirm = ['confirm', 'done'];
   if (optionType === 'female') return [...common1, ...female, ...confirm];
   if (optionType === 'male')   return [...common1, ...male,   ...confirm];
   if (optionType === 'both')   return [...common1, ...female, ...male, ...confirm];
-  return ['option', 'basic', 'confirm', 'done']; // fallback
+  return ['option', 'basic', 'confirm', 'done'];
 }
 
 function stepLabels(steps) {
@@ -268,7 +271,7 @@ function updateProgress() {
   const wrap = document.getElementById('progress-steps');
   wrap.innerHTML = steps.map((s, i) => {
     const cls = i < currentStep ? 'done' : i === currentStep ? 'active' : '';
-    return `<div class="step-item ${cls}" data-step="${i}">
+    return `<div class="step-item ${cls}">
       <div class="step-dot">${i+1}</div>
       <div class="step-label">${labels[i]}</div>
     </div>`;
@@ -292,14 +295,11 @@ function renderStep() {
 function goNext() {
   if (!validateCurrent()) return;
   const steps = getSteps();
-  // If option selected, recalculate steps
   if (steps[currentStep] === 'option') {
     optionType = document.querySelector('input[name="option-type"]:checked')?.value || '';
     if (!optionType) return;
   }
-  if (steps[currentStep] === steps[steps.length - 2]) {
-    buildConfirmData();
-  }
+  buildConfirmData();
   currentStep++;
   renderStep();
 }
@@ -353,15 +353,16 @@ function uploadField(key, label, desc, max, icon) {
 }
 
 function pageOption() {
+  const checked = v => optionType === v ? 'checked' : '';
   return `
     <div class="page-heading">オプションの確認</div>
     <div class="page-desc">今回ご予約いただいたヘアメイクオプションを選択してください。</div>
     <div class="field">
       <label>ヘアメイクオプション<span class="req">必須</span></label>
       <div class="radio-grid col1">
-        <label class="choice-card"><input type="radio" name="option-type" value="female"><div class="choice-label"><div class="choice-dot"></div>女性ヘアセット＆メイク</div></label>
-        <label class="choice-card"><input type="radio" name="option-type" value="male"><div class="choice-label"><div class="choice-dot"></div>男性ヘアセット</div></label>
-        <label class="choice-card"><input type="radio" name="option-type" value="both"><div class="choice-label"><div class="choice-dot"></div>両方（女性＋男性）</div></label>
+        <label class="choice-card"><input type="radio" name="option-type" value="female" ${checked('female')}><div class="choice-label"><div class="choice-dot"></div>女性ヘアセット＆メイク</div></label>
+        <label class="choice-card"><input type="radio" name="option-type" value="male" ${checked('male')}><div class="choice-label"><div class="choice-dot"></div>男性ヘアセット</div></label>
+        <label class="choice-card"><input type="radio" name="option-type" value="both" ${checked('both')}><div class="choice-label"><div class="choice-dot"></div>両方（女性＋男性）</div></label>
       </div>
       <div class="error-msg" id="err-option">選択してください</div>
     </div>
@@ -373,12 +374,17 @@ function pageBasic() {
   return `
     <div class="page-heading">基本情報</div>
     ${isBoth ? `<div class="notice-box both"><strong>📋 お二人揃っている時にご回答ください。</strong><br>このアンケートは途中保存ができません。女性・男性それぞれの情報を続けてご入力いただく必要があります。お二人でご一緒にご回答をお願いいたします。</div>` : ''}
+    ${optionType === 'male' ? `
+    <div class="notice-box">
+      ご希望のヘアセットのイメージ写真をスマホまたはPCにご準備いただいた上でご回答ください。<br><br>
+      ＜ご注意＞ 撮影中のヘアチェンジは承っておりません。
+    </div>` : `
     <div class="notice-box">
       ご希望のヘア・メイクのイメージ写真をスマホまたはPCにご準備いただいた上でご回答ください。<br><br>
       <strong>🔶 つけまつげ、アイプチ・メザイク、金箔やラメ・グリッター、リボン、パールシールなどのアクセサリーはお客様ご自身にて事前にご用意いただき、撮影日当日お持ち込みください。</strong>（こちらでの手配は一切できかねます）<br><br>
       <strong>🔶 メイクアイテムのお持ち込みは自由です。</strong>敏感肌の方や合わない化粧品がある場合は普段使用されているメイクアイテムをお持ち込みください。<br><br>
       ＜ご注意＞ 撮影中のヘアメイクチェンジは承っておりません。
-    </div>
+    </div>`}
     <div class="field">
       <label>${isBoth ? '女性のお名前' : 'お名前'}<span class="req">必須</span></label>
       <input type="text" id="name" placeholder="山田 花子" value="${formData.name||''}">
@@ -398,28 +404,38 @@ function pageBasic() {
 }
 
 function pageFHair() {
+  const cv = n => { const el = document.querySelector(`input[name="${n}"]:checked`); return el ? el.value : (formData[n.replace(/-([a-z])/g, (_,c)=>c.toUpperCase())] || ''); };
+  const checked = (name, val) => (formData[name] === val) ? 'checked' : '';
   return `
     <div class="section-badge female">👩 女性ヘアについて</div>
     <div class="page-heading">ヘアに関するご質問</div>
     <div class="page-desc">担当スタイリストが事前に把握するための情報です。</div>
     <div class="field">
       <label>髪の長さはどのぐらいですか<span class="req">必須</span></label>
-      ${radioGroup('f-hair-length', ['ショート','ミディアム（肩あたり）','ロング（肩以下）'], 1)}
+      <div class="radio-grid col1">
+        ${['ショート','ミディアム（肩あたり）','ロング（肩以下）'].map(o=>`<label class="choice-card"><input type="radio" name="f-hair-length" value="${o}" ${formData.fHairLength===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-f-length">選択してください</div>
     </div>
     <div class="field">
       <label>パーマをかけていますか<span class="req">必須</span></label>
-      ${radioGroup('f-perm', ['かけていない','髪全体にかけている','髪の一部にかけている'], 1)}
+      <div class="radio-grid col1">
+        ${['かけていない','髪全体にかけている','髪の一部にかけている'].map(o=>`<label class="choice-card"><input type="radio" name="f-perm" value="${o}" ${formData.fPerm===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-f-perm">選択してください</div>
     </div>
     <div class="field">
       <label>髪の毛量はどのぐらいですか<span class="req">必須</span></label>
-      ${radioGroup('f-hair-volume', ['少なめ','普通','多め'], 3)}
+      <div class="radio-grid col3">
+        ${['少なめ','普通','多め'].map(o=>`<label class="choice-card"><input type="radio" name="f-hair-volume" value="${o}" ${formData.fHairVolume===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-f-volume">選択してください</div>
     </div>
     <div class="field">
       <label>髪質はどれですか<span class="req">必須</span></label>
-      ${radioGroup('f-hair-texture', ['硬い','柔らかい','普通'], 3)}
+      <div class="radio-grid col3">
+        ${['硬い','柔らかい','普通'].map(o=>`<label class="choice-card"><input type="radio" name="f-hair-texture" value="${o}" ${formData.fHairTexture===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-f-texture">選択してください</div>
     </div>
     ${navBtns(false, false)}`;
@@ -432,7 +448,9 @@ function pageFMakeup() {
     <div class="page-desc">メイクの仕上がりのために教えてください。</div>
     <div class="field">
       <label>肌質はどれですか<span class="req">必須</span></label>
-      ${radioGroup('f-skin-type', ['乾燥肌','脂性肌','混合肌'], 3)}
+      <div class="radio-grid col3">
+        ${['乾燥肌','脂性肌','混合肌'].map(o=>`<label class="choice-card"><input type="radio" name="f-skin-type" value="${o}" ${formData.fSkinType===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-f-skin">選択してください</div>
     </div>
     <div class="field">
@@ -441,12 +459,16 @@ function pageFMakeup() {
     </div>
     <div class="field">
       <label>撮影当日はコンタクトをされますか<span class="req">必須</span></label>
-      ${radioGroup('f-contact', ['はい（ソフトコンタクト）','はい（ハードコンタクト）','いいえ'], 1)}
+      <div class="radio-grid col1">
+        ${['はい（ソフトコンタクト）','はい（ハードコンタクト）','いいえ'].map(o=>`<label class="choice-card"><input type="radio" name="f-contact" value="${o}" ${formData.fContact===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-f-contact">選択してください</div>
     </div>
     <div class="field">
       <label>ご希望のメイクイメージはどれですか<span class="req">必須</span></label>
-      ${radioGroup('f-makeup-image', ['ナチュラル','エレガント','フェミニン','スタイリッシュ'], 2)}
+      <div class="radio-grid">
+        ${['ナチュラル','エレガント','フェミニン','スタイリッシュ'].map(o=>`<label class="choice-card"><input type="radio" name="f-makeup-image" value="${o}" ${formData.fMakeupImage===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-f-makeup">選択してください</div>
     </div>
     ${navBtns(false, false)}`;
@@ -456,7 +478,7 @@ function pageFPhoto() {
   return `
     <div class="section-badge female">👩 女性の写真</div>
     <div class="page-heading">写真のアップロード</div>
-    <div class="page-desc">画像は1枚あたり10GB以下を目安にしてください。アップロードできない場合は写真なしで送信し、公式LINEにてお送りください。</div>
+    <div class="page-desc">アップロードできない場合は写真なしで送信し、公式LINEにてお送りください。</div>
     ${uploadField('f-hair-images','【ヘアセットイメージ写真】','ご希望のヘアセットイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。',2,'💇')}
     ${uploadField('f-makeup-images','【メイクイメージ写真】','ご希望されるメイクイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。',2,'💄')}
     ${uploadField('f-length-images','【髪の毛の長さがわかるお写真】','「1枚」こちらにアップロードください。',1,'📷')}
@@ -470,34 +492,40 @@ function pageMHair() {
     <div class="page-desc">担当スタイリストが事前に把握するための情報です。</div>
     <div class="field">
       <label>髪の長さはどのぐらいですか<span class="req">必須</span></label>
-      ${radioGroup('m-hair-length', ['ショート','ミディアム（肩あたり）','ロング（肩以下）'], 1)}
+      <div class="radio-grid col1">
+        ${['ショート','ミディアム（肩あたり）','ロング（肩以下）'].map(o=>`<label class="choice-card"><input type="radio" name="m-hair-length" value="${o}" ${formData.mHairLength===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-m-length">選択してください</div>
     </div>
     <div class="field">
       <label>パーマをかけていますか<span class="req">必須</span></label>
-      ${radioGroup('m-perm', ['かけていない','髪全体にかけている','髪の一部にかけている'], 1)}
+      <div class="radio-grid col1">
+        ${['かけていない','髪全体にかけている','髪の一部にかけている'].map(o=>`<label class="choice-card"><input type="radio" name="m-perm" value="${o}" ${formData.mPerm===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-m-perm">選択してください</div>
     </div>
     <div class="field">
       <label>髪の毛量はどのぐらいですか<span class="req">必須</span></label>
-      ${radioGroup('m-hair-volume', ['少なめ','普通','多め'], 3)}
+      <div class="radio-grid col3">
+        ${['少なめ','普通','多め'].map(o=>`<label class="choice-card"><input type="radio" name="m-hair-volume" value="${o}" ${formData.mHairVolume===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-m-volume">選択してください</div>
     </div>
     <div class="field">
       <label>髪質はどれですか<span class="req">必須</span></label>
-      ${radioGroup('m-hair-texture', ['硬い','柔らかい','普通'], 3)}
+      <div class="radio-grid col3">
+        ${['硬い','柔らかい','普通'].map(o=>`<label class="choice-card"><input type="radio" name="m-hair-texture" value="${o}" ${formData.mHairTexture===o?'checked':''}><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`).join('')}
+      </div>
       <div class="error-msg" id="err-m-texture">選択してください</div>
     </div>
     ${navBtns(false, false)}`;
 }
 
 function pageMPhoto() {
-  const steps = getSteps();
-  const isLast = steps[currentStep + 1] === 'confirm';
   return `
     <div class="section-badge male">👨 男性の写真</div>
     <div class="page-heading">写真のアップロード</div>
-    <div class="page-desc">画像は1枚あたり10GB以下を目安にしてください。アップロードできない場合は写真なしで送信し、公式LINEにてお送りください。</div>
+    <div class="page-desc">アップロードできない場合は写真なしで送信し、公式LINEにてお送りください。</div>
     ${uploadField('m-hair-images','【ヘアセットイメージ写真】','ご希望のヘアセットイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。',2,'💇')}
     ${uploadField('m-length-images','【髪の毛の長さがわかるお写真】','「1枚」こちらにアップロードください。',1,'📷')}
     <div class="field">
@@ -582,12 +610,10 @@ function pageDone() {
 // ============================================================
 // FORM DATA
 // ============================================================
-let formData = {};
-
 function buildConfirmData() {
-  formData.name      = document.getElementById('name')?.value || formData.name || '';
-  formData.nameMale  = document.getElementById('name-male')?.value || formData.nameMale || '';
-  formData.shootDate = document.getElementById('shoot-date')?.value || formData.shootDate || '';
+  formData.name         = document.getElementById('name')?.value || formData.name || '';
+  formData.nameMale     = document.getElementById('name-male')?.value || formData.nameMale || '';
+  formData.shootDate    = document.getElementById('shoot-date')?.value || formData.shootDate || '';
   formData.fHairLength  = document.querySelector('input[name="f-hair-length"]:checked')?.value || formData.fHairLength || '';
   formData.fPerm        = document.querySelector('input[name="f-perm"]:checked')?.value || formData.fPerm || '';
   formData.fHairVolume  = document.querySelector('input[name="f-hair-volume"]:checked')?.value || formData.fHairVolume || '';
@@ -609,7 +635,6 @@ function buildConfirmData() {
 function validateCurrent() {
   const steps = getSteps();
   const step = steps[currentStep];
-  // Save current inputs before validating
   buildConfirmData();
 
   let ok = true;
