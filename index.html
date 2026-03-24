@@ -136,7 +136,7 @@
   .dash-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 14px; padding: 24px 20px; cursor: pointer; transition: all 0.2s; }
   .dash-card:hover { border-color: var(--accent); transform: translateY(-2px); }
   .dash-card.new { border-left: 4px solid var(--accent); }
-  .dash-card.done { border-left: 4px solid var(--border); opacity: 0.7; }
+  .dash-card.done { border-left: 4px solid var(--border); }
   .dash-count { font-size: 42px; font-weight: 500; line-height: 1; margin-bottom: 8px; }
   .dash-card.new .dash-count { color: var(--accent); }
   .dash-card.done .dash-count { color: var(--muted); }
@@ -646,7 +646,7 @@ function buildCard(s) {
   const baseUrl = location.origin + location.pathname;
   const shareUrl = `${baseUrl}?sid=${s.id}`;
   const badge = !s.read ? '<span class="badge-new">NEW</span>' : '';
-  const cardStyle = s.read ? 'opacity:0.65' : '';
+  const cardStyle = '';
   const mkPhotoSection = (label, imgs) => {
     if (!imgs || imgs.length === 0) return '';
     return `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">${label}（${imgs.length}枚）</div>
