@@ -815,8 +815,7 @@ function buildCard(s) {
   let body = `<div class="admin-grid">
     <div><div class="admin-fl">オプション</div>${optionLabel(s.optionType)}</div>
     <div><div class="admin-fl">撮影日</div>${fmtDate(s.shootDate)}</div>
-    <div><div class="admin-fl">${isBoth?'女性のお名前':'お名前'}</div>${s.name||''}</div>
-    ${isBoth ? `<div><div class="admin-fl">男性のお名前</div>${s.nameMale||''}</div>` : ''}
+    <div><div class="admin-fl">${isBoth?'女性のお名前':'お名前'}</div>${s.name||''}${isBoth ? `　／　<span style="color:var(--muted);font-size:11px">男性：</span>${s.nameMale||''}` : ''}</div>
   </div>`;
 
   if (isFemale) {
@@ -920,8 +919,7 @@ async function initSalonView(id) {
       <div class="salon-grid">
         <div><div class="salon-fl">オプション</div><div class="salon-fv">${optionLabel(s.optionType)}</div></div>
         <div><div class="salon-fl">撮影日</div><div class="salon-fv">${fmtDate(s.shootDate)}</div></div>
-        <div><div class="salon-fl">${isBoth?'女性のお名前':'お名前'}</div><div class="salon-fv">${s.name||''}</div></div>
-        ${isBoth ? `<div><div class="salon-fl">男性のお名前</div><div class="salon-fv">${s.nameMale||''}</div></div>` : ''}
+        <div><div class="salon-fl">${isBoth?'女性のお名前':'お名前'}</div><div class="salon-fv">${s.name||''}${isBoth ? `　／　<span style="color:var(--muted);font-size:11px">男性：</span>${s.nameMale||''}` : ''}</div></div>
       </div>
     </div>`;
 
