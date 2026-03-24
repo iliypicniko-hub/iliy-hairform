@@ -7,172 +7,158 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FAF7F2;
-    --warm-white: #FFFEFB;
-    --dark: #1C1A18;
-    --muted: #7A7570;
-    --accent: #C4956A;
-    --accent-light: #F0E6D8;
-    --border: #E8E0D5;
-    --success: #5A8A6A;
-    --error: #C46A6A;
+    --cream: #FAF7F2; --warm-white: #FFFEFB; --dark: #1C1A18; --muted: #7A7570;
+    --accent: #C4956A; --accent-light: #F0E6D8; --border: #E8E0D5;
+    --success: #5A8A6A; --error: #C46A6A;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--cream); color: var(--dark); font-family: 'Noto Sans JP', sans-serif; font-weight: 300; min-height: 100vh; }
-
   .header { background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 18px 24px; text-align: center; }
-  .header-title {  font-size: 18px; font-weight: 500; letter-spacing: 0.1em; }
-  .header-sub { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.05em; }
-
+  .header-title { font-size: 18px; font-weight: 500; letter-spacing: 0.08em; }
+  .header-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
   .progress-wrap { background: var(--warm-white); padding: 14px 24px 0; border-bottom: 1px solid var(--border); }
-  .progress-steps { display: flex; justify-content: center; max-width: 500px; margin: 0 auto; }
+  .progress-steps { display: flex; justify-content: center; max-width: 560px; margin: 0 auto; }
   .step-item { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
-  .step-item:not(:last-child)::after { content: ''; position: absolute; top: 13px; left: 50%; width: 100%; height: 1px; background: var(--border); z-index: 0; }
+  .step-item:not(:last-child)::after { content:''; position:absolute; top:13px; left:50%; width:100%; height:1px; background:var(--border); z-index:0; }
   .step-item.done:not(:last-child)::after, .step-item.active:not(:last-child)::after { background: var(--accent); }
-  .step-dot { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--warm-white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--muted); position: relative; z-index: 1; transition: all 0.3s; }
-  .step-item.active .step-dot { border-color: var(--accent); background: var(--accent); color: white; }
-  .step-item.done .step-dot { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
-  .step-label { font-size: 9px; color: var(--muted); margin-top: 5px; letter-spacing: 0.02em; white-space: nowrap; padding-bottom: 10px; }
-  .step-item.active .step-label { color: var(--accent); font-weight: 500; }
-
+  .step-dot { width:26px; height:26px; border-radius:50%; border:1.5px solid var(--border); background:var(--warm-white); display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--muted); position:relative; z-index:1; transition:all 0.3s; }
+  .step-item.active .step-dot { border-color:var(--accent); background:var(--accent); color:white; }
+  .step-item.done .step-dot { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
+  .step-label { font-size:9px; color:var(--muted); margin-top:5px; white-space:nowrap; padding-bottom:10px; }
+  .step-item.active .step-label { color:var(--accent); font-weight:500; }
   .main { max-width: 560px; margin: 0 auto; padding: 28px 20px 60px; }
   .page { display: none; animation: fadeIn 0.3s ease; }
   .page.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .page-heading {  font-size: 21px; font-weight: 500; margin-bottom: 6px; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  .page-heading { font-size: 21px; font-weight: 500; margin-bottom: 6px; }
   .page-desc { font-size: 13px; color: var(--muted); margin-bottom: 26px; line-height: 1.8; }
-
-  .notice-box { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 12px 14px; font-size: 12px; line-height: 1.8; margin-bottom: 24px; color: var(--dark); }
-  .notice-box strong { color: var(--accent); font-weight: 500; }
-
+  .section-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 500; margin-bottom: 16px; letter-spacing: 0.05em; }
+  .section-badge.female { background: #FBEAF0; color: #993556; border: 1px solid #ED93B1; }
+  .section-badge.male { background: #E6F1FB; color: #185FA5; border: 1px solid #85B7EB; }
+  .notice-box { background:var(--accent-light); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:12px 14px; font-size:12px; line-height:1.8; margin-bottom:24px; color:var(--dark); }
+  .notice-box strong { color:var(--accent); font-weight:500; }
+  .notice-box.both { background: #EAF3DE; border-left-color: #3B6D11; }
+  .notice-box.both strong { color: #3B6D11; }
   .field { margin-bottom: 22px; }
-  .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--dark); }
-  .field label .req { color: var(--accent); margin-left: 4px; font-size: 10px; }
-  .field label .opt { color: var(--muted); margin-left: 4px; font-size: 10px; font-weight: 300; }
-
-  input[type="text"], input[type="date"], textarea {
-    width: 100%; background: var(--warm-white); border: 1px solid var(--border); border-radius: 8px;
-    padding: 11px 13px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 300;
-    color: var(--dark); outline: none; transition: border-color 0.2s;
-  }
-  input[type="text"]:focus, input[type="date"]:focus, textarea:focus { border-color: var(--accent); }
-  textarea { resize: vertical; min-height: 90px; line-height: 1.7; }
-
-  .radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-  .radio-grid.col1 { grid-template-columns: 1fr; }
-  .radio-grid.col3 { grid-template-columns: 1fr 1fr 1fr; }
-  .choice-card { position: relative; cursor: pointer; }
-  .choice-card input { position: absolute; opacity: 0; width: 0; height: 0; }
-  .choice-label { display: flex; align-items: center; gap: 9px; padding: 11px 13px; background: var(--warm-white); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; transition: all 0.2s; cursor: pointer; line-height: 1.4; }
-  .choice-card input:checked + .choice-label { border-color: var(--accent); background: var(--accent-light); }
-  .choice-dot { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--border); flex-shrink: 0; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-  .choice-card input:checked + .choice-label .choice-dot { border-color: var(--accent); background: var(--accent); }
-  .choice-card input:checked + .choice-label .choice-dot::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: white; }
-
-  .upload-area { border: 1.5px dashed var(--border); border-radius: 10px; padding: 24px 16px; text-align: center; background: var(--warm-white); cursor: pointer; transition: all 0.2s; position: relative; }
-  .upload-area:hover { border-color: var(--accent); background: var(--accent-light); }
-  .upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .upload-icon { font-size: 24px; margin-bottom: 8px; opacity: 0.5; }
-  .upload-text { font-size: 12px; color: var(--muted); line-height: 1.7; }
-  .upload-text strong { color: var(--accent); font-weight: 500; }
-  .photo-previews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-  .photo-thumb { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid var(--border); }
-  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .photo-remove { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; background: rgba(0,0,0,0.5); border-radius: 50%; border: none; color: white; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-
-  .nav { display: flex; gap: 10px; margin-top: 32px; }
-  .btn-back { flex: 0 0 auto; padding: 13px 18px; background: transparent; border: 1px solid var(--border); border-radius: 8px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--muted); cursor: pointer; transition: all 0.2s; }
-  .btn-back:hover { border-color: var(--muted); color: var(--dark); }
-  .btn-next { flex: 1; padding: 13px; background: var(--dark); border: none; border-radius: 8px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 500; color: white; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em; }
-  .btn-next:hover { background: var(--accent); }
-  .btn-submit { flex: 1; padding: 13px; background: var(--accent); border: none; border-radius: 8px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 500; color: white; cursor: pointer; transition: all 0.2s; }
-  .btn-submit:hover { background: #B8845A; }
-  .btn-submit:disabled { background: var(--muted); cursor: not-allowed; }
-
-  .confirm-block { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
-  .confirm-block-title { background: var(--accent-light); padding: 9px 15px; font-size: 11px; font-weight: 500; color: var(--accent); letter-spacing: 0.08em; border-bottom: 1px solid var(--border); }
-  .confirm-row { padding: 10px 15px; display: flex; gap: 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .confirm-row:last-child { border-bottom: none; }
-  .confirm-key { color: var(--muted); flex: 0 0 130px; font-size: 12px; }
-  .confirm-val { color: var(--dark); flex: 1; line-height: 1.6; }
-
-  .thankyou { text-align: center; padding: 48px 20px; }
-  .thankyou-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--accent-light); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 22px; }
-  .thankyou h2 {  font-size: 21px; font-weight: 500; margin-bottom: 12px; }
-  .thankyou p { font-size: 13px; color: var(--muted); line-height: 2; }
-
-  .sending-overlay { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.85); z-index: 100; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
-  .sending-overlay.show { display: flex; }
-  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .sending-text { font-size: 13px; color: var(--muted); }
-
-  .error-msg { font-size: 12px; color: var(--error); margin-top: 6px; display: none; }
-  .error-msg.show { display: block; }
+  .field label { display:block; font-size:13px; font-weight:500; margin-bottom:8px; color:var(--dark); }
+  .field label .req { color:var(--accent); margin-left:4px; font-size:10px; }
+  .field label .opt { color:var(--muted); margin-left:4px; font-size:10px; font-weight:300; }
+  input[type="text"], input[type="date"], textarea { width:100%; background:var(--warm-white); border:1px solid var(--border); border-radius:8px; padding:11px 13px; font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:300; color:var(--dark); outline:none; transition:border-color 0.2s; }
+  input[type="text"]:focus, input[type="date"]:focus, textarea:focus { border-color:var(--accent); }
+  textarea { resize:vertical; min-height:90px; line-height:1.7; }
+  .radio-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .radio-grid.col1 { grid-template-columns:1fr; }
+  .radio-grid.col3 { grid-template-columns:1fr 1fr 1fr; }
+  .choice-card { position:relative; cursor:pointer; }
+  .choice-card input { position:absolute; opacity:0; width:0; height:0; }
+  .choice-label { display:flex; align-items:center; gap:9px; padding:11px 13px; background:var(--warm-white); border:1px solid var(--border); border-radius:8px; font-size:13px; transition:all 0.2s; cursor:pointer; line-height:1.4; }
+  .choice-card input:checked + .choice-label { border-color:var(--accent); background:var(--accent-light); }
+  .choice-dot { width:15px; height:15px; border-radius:50%; border:1.5px solid var(--border); flex-shrink:0; transition:all 0.2s; display:flex; align-items:center; justify-content:center; }
+  .choice-card input:checked + .choice-label .choice-dot { border-color:var(--accent); background:var(--accent); }
+  .choice-card input:checked + .choice-label .choice-dot::after { content:''; width:5px; height:5px; border-radius:50%; background:white; }
+  .upload-area { border:1.5px dashed var(--border); border-radius:10px; padding:24px 16px; text-align:center; background:var(--warm-white); cursor:pointer; transition:all 0.2s; position:relative; }
+  .upload-area:hover { border-color:var(--accent); background:var(--accent-light); }
+  .upload-area input { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+  .upload-icon { font-size:24px; margin-bottom:8px; opacity:0.5; }
+  .upload-text { font-size:12px; color:var(--muted); line-height:1.7; }
+  .upload-text strong { color:var(--accent); font-weight:500; }
+  .photo-previews { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px; }
+  .photo-thumb { aspect-ratio:1; border-radius:8px; overflow:hidden; position:relative; border:1px solid var(--border); }
+  .photo-thumb img { width:100%; height:100%; object-fit:cover; }
+  .photo-remove { position:absolute; top:4px; right:4px; width:20px; height:20px; background:rgba(0,0,0,0.5); border-radius:50%; border:none; color:white; font-size:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .nav { display:flex; gap:10px; margin-top:32px; }
+  .btn-back { flex:0 0 auto; padding:13px 18px; background:transparent; border:1px solid var(--border); border-radius:8px; font-family:'Noto Sans JP',sans-serif; font-size:13px; color:var(--muted); cursor:pointer; transition:all 0.2s; }
+  .btn-back:hover { border-color:var(--muted); color:var(--dark); }
+  .btn-next { flex:1; padding:13px; background:var(--dark); border:none; border-radius:8px; font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:500; color:white; cursor:pointer; transition:all 0.2s; }
+  .btn-next:hover { background:var(--accent); }
+  .btn-submit { flex:1; padding:13px; background:var(--accent); border:none; border-radius:8px; font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:500; color:white; cursor:pointer; transition:all 0.2s; }
+  .btn-submit:hover { background:#B8845A; }
+  .btn-submit:disabled { background:var(--muted); cursor:not-allowed; }
+  .confirm-block { background:var(--warm-white); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
+  .confirm-block-title { background:var(--accent-light); padding:9px 15px; font-size:11px; font-weight:500; color:var(--accent); letter-spacing:0.08em; border-bottom:1px solid var(--border); }
+  .confirm-block-title.male { background:#E6F1FB; color:#185FA5; }
+  .confirm-row { padding:10px 15px; display:flex; gap:12px; border-bottom:1px solid var(--border); font-size:13px; }
+  .confirm-row:last-child { border-bottom:none; }
+  .confirm-key { color:var(--muted); flex:0 0 130px; font-size:12px; }
+  .confirm-val { color:var(--dark); flex:1; line-height:1.6; }
+  .thankyou { text-align:center; padding:48px 20px; }
+  .thankyou-icon { width:60px; height:60px; border-radius:50%; background:var(--accent-light); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:22px; }
+  .thankyou h2 { font-size:21px; font-weight:500; margin-bottom:12px; }
+  .thankyou p { font-size:13px; color:var(--muted); line-height:2; }
+  .sending-overlay { display:none; position:fixed; inset:0; background:rgba(255,255,255,0.85); z-index:100; align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+  .sending-overlay.show { display:flex; }
+  .spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .sending-text { font-size:13px; color:var(--muted); }
+  .error-msg { font-size:12px; color:var(--error); margin-top:6px; display:none; }
+  .error-msg.show { display:block; }
 
   /* ADMIN */
-  .admin-wrap { max-width: 700px; margin: 0 auto; padding: 24px 20px 60px; }
-  .loading-box { text-align: center; padding: 60px 0; color: var(--muted); font-size: 14px; }
-  .admin-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
-  .admin-card-head { background: var(--accent-light); padding: 13px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-  .admin-card-name {  font-size: 16px; font-weight: 500; }
-  .admin-card-meta { font-size: 11px; color: var(--muted); }
-  .admin-card-body { padding: 16px 18px; }
-  .admin-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px 20px; font-size: 13px; margin-bottom: 12px; }
-  .admin-fl { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
-  .admin-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-  .admin-photo { aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
-  .admin-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .share-box { background: var(--cream); border: 1px solid var(--border); border-radius: 10px; padding: 13px 15px; margin-top: 14px; }
-  .share-title { font-size: 11px; font-weight: 500; color: var(--muted); margin-bottom: 9px; letter-spacing: 0.05em; }
-  .share-row { display: flex; gap: 8px; align-items: center; }
-  .share-url-text { font-size: 11px; color: var(--muted); background: var(--warm-white); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .btn-copy { padding: 6px 14px; background: var(--dark); border: none; border-radius: 6px; font-family: 'Noto Sans JP', sans-serif; font-size: 11px; color: white; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-  .btn-copy:hover { background: var(--accent); }
-  .btn-copy.copied { background: var(--success); }
-  .badge-new { display: inline-block; background: var(--accent); color: white; font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
-  .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
-  .dash-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 14px; padding: 24px 20px; cursor: pointer; transition: all 0.2s; }
-  .dash-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .dash-card.new { border-left: 4px solid var(--accent); }
-  .dash-card.done { border-left: 4px solid var(--border); }
-  .dash-count { font-size: 42px; font-weight: 500; line-height: 1; margin-bottom: 8px; }
-  .dash-card.new .dash-count { color: var(--accent); }
-  .dash-card.done .dash-count { color: var(--muted); }
-  .dash-label { font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 4px; }
-  .dash-sub { font-size: 11px; color: var(--muted); }
-  .list-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-  .btn-back-list { padding: 8px 14px; background: transparent; border: 1px solid var(--border); border-radius: 8px; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.2s; }
-  .btn-back-list:hover { border-color: var(--muted); color: var(--dark); }
-  .list-title { font-size: 16px; font-weight: 500; color: var(--dark); }
+  .admin-wrap { max-width:700px; margin:0 auto; padding:24px 20px 60px; }
+  .loading-box { text-align:center; padding:60px 0; color:var(--muted); font-size:14px; }
+  .dashboard { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px; }
+  .dash-card { background:var(--warm-white); border:1px solid var(--border); border-radius:14px; padding:24px 20px; cursor:pointer; transition:all 0.2s; }
+  .dash-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+  .dash-card.new { border-left:4px solid var(--accent); }
+  .dash-card.done { border-left:4px solid var(--border); }
+  .dash-count { font-size:42px; font-weight:500; line-height:1; margin-bottom:8px; }
+  .dash-card.new .dash-count { color:var(--accent); }
+  .dash-card.done .dash-count { color:var(--muted); }
+  .dash-label { font-size:14px; font-weight:500; color:var(--dark); margin-bottom:4px; }
+  .dash-sub { font-size:11px; color:var(--muted); }
+  .list-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .btn-back-list { padding:8px 14px; background:transparent; border:1px solid var(--border); border-radius:8px; font-family:'Noto Sans JP',sans-serif; font-size:12px; color:var(--muted); cursor:pointer; transition:all 0.2s; }
+  .btn-back-list:hover { border-color:var(--muted); color:var(--dark); }
+  .list-title { font-size:16px; font-weight:500; color:var(--dark); }
+  .admin-card { background:var(--warm-white); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:20px; }
+  .admin-card-head { background:var(--accent-light); padding:13px 18px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); }
+  .admin-card-name { font-size:16px; font-weight:500; }
+  .admin-card-meta { font-size:11px; color:var(--muted); }
+  .admin-card-body { padding:16px 18px; }
+  .admin-section-title { font-size:11px; font-weight:500; letter-spacing:0.06em; margin:14px 0 8px; padding-bottom:5px; border-bottom:1px solid var(--border); }
+  .admin-section-title.female { color:#993556; }
+  .admin-section-title.male { color:#185FA5; }
+  .admin-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px 20px; font-size:13px; margin-bottom:10px; }
+  .admin-fl { font-size:11px; color:var(--muted); margin-bottom:2px; }
+  .admin-photos { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:8px; }
+  .admin-photo { aspect-ratio:1; border-radius:8px; overflow:hidden; border:1px solid var(--border); cursor:pointer; }
+  .admin-photo img { width:100%; height:100%; object-fit:cover; }
+  .share-box { background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:13px 15px; margin-top:14px; }
+  .share-title { font-size:11px; font-weight:500; color:var(--muted); margin-bottom:9px; }
+  .share-row { display:flex; gap:8px; align-items:center; }
+  .share-url-text { font-size:11px; color:var(--muted); background:var(--warm-white); border:1px solid var(--border); border-radius:6px; padding:6px 10px; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .btn-copy { padding:6px 14px; background:var(--dark); border:none; border-radius:6px; font-family:'Noto Sans JP',sans-serif; font-size:11px; color:white; cursor:pointer; white-space:nowrap; transition:all 0.2s; }
+  .btn-copy:hover { background:var(--accent); }
+  .btn-copy.copied { background:var(--success); }
+  .badge-new { display:inline-block; background:var(--accent); color:white; font-size:10px; padding:2px 8px; border-radius:10px; margin-left:8px; vertical-align:middle; }
 
-  /* SALON VIEW */
-  .salon-wrap-inner { max-width: 600px; margin: 0 auto; padding: 24px 20px 60px; }
-  .salon-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-  .salon-head { background: var(--accent-light); padding: 18px 20px; border-bottom: 1px solid var(--border); }
-  .salon-name {  font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-  .salon-meta { font-size: 12px; color: var(--muted); }
-  .salon-body { padding: 20px; }
-  .salon-section { margin-bottom: 22px; }
-  .salon-sec-title { font-size: 11px; font-weight: 500; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-  .salon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
-  .salon-fl { color: var(--muted); font-size: 11px; margin-bottom: 3px; }
-  .salon-fv { font-size: 13px; color: var(--dark); }
-  .salon-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .salon-photo { aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; }
-  .salon-photo img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.2s; }
-  .salon-photo img:hover { opacity: 0.85; }
-
-  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; }
-  .lightbox.open { display: flex; }
-  .lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
-  .lightbox-close { position: absolute; top: 16px; right: 20px; font-size: 28px; color: white; cursor: pointer; line-height: 1; }
+  /* SALON */
+  .salon-wrap-inner { max-width:600px; margin:0 auto; padding:24px 20px 60px; }
+  .salon-card { background:var(--warm-white); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .salon-head { background:var(--accent-light); padding:18px 20px; border-bottom:1px solid var(--border); }
+  .salon-name { font-size:20px; font-weight:500; margin-bottom:4px; }
+  .salon-meta { font-size:12px; color:var(--muted); }
+  .salon-body { padding:20px; }
+  .salon-section { margin-bottom:22px; }
+  .salon-sec-title { font-size:11px; font-weight:500; letter-spacing:0.08em; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .salon-sec-title.female { color:#993556; }
+  .salon-sec-title.male { color:#185FA5; }
+  .salon-sec-title.common { color:var(--accent); }
+  .salon-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px; }
+  .salon-fl { color:var(--muted); font-size:11px; margin-bottom:3px; }
+  .salon-fv { font-size:13px; color:var(--dark); }
+  .salon-photos { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .salon-photo { aspect-ratio:1; border-radius:8px; overflow:hidden; border:1px solid var(--border); cursor:pointer; }
+  .salon-photo img { width:100%; height:100%; object-fit:cover; transition:opacity 0.2s; }
+  .salon-photo img:hover { opacity:0.85; }
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:90vw; max-height:90vh; border-radius:8px; }
+  .lightbox-close { position:absolute; top:16px; right:20px; font-size:28px; color:white; cursor:pointer; line-height:1; }
 </style>
 </head>
 <body>
 
-<!-- SENDING OVERLAY -->
 <div class="sending-overlay" id="sending-overlay">
   <div class="spinner"></div>
   <div class="sending-text">送信中です。しばらくお待ちください…</div>
@@ -185,193 +171,9 @@
     <div class="header-sub">撮影日の7日前までにご回答ください</div>
   </div>
   <div class="progress-wrap">
-    <div class="progress-steps">
-      <div class="step-item active" data-step="1"><div class="step-dot">1</div><div class="step-label">はじめに</div></div>
-      <div class="step-item" data-step="2"><div class="step-dot">2</div><div class="step-label">ヘア</div></div>
-      <div class="step-item" data-step="3"><div class="step-dot">3</div><div class="step-label">メイク</div></div>
-      <div class="step-item" data-step="4"><div class="step-dot">4</div><div class="step-label">写真</div></div>
-      <div class="step-item" data-step="5"><div class="step-dot">5</div><div class="step-label">確認</div></div>
-    </div>
+    <div class="progress-steps" id="progress-steps"></div>
   </div>
-
-  <div class="main">
-    <!-- PAGE 1 -->
-    <div class="page active" id="page-1">
-      <div class="page-heading">はじめに</div>
-      <div class="page-desc">この度はご予約をいただきありがとうございます。ヘアメイクオプションをお申し込みのお客様に、撮影当日のヘアメイクを事前に確認させていただく為、アンケートのご記入をお願いしております。</div>
-      <div class="notice-box">
-        ご希望のヘア・メイクのイメージ写真をスマホまたはPCにご準備いただいた上でご回答ください。<br><br>
-        <strong>🔶 つけまつげ、アイプチ・メザイク、金箔やラメ・グリッター、リボン、パールシールなどのアクセサリーはお客様ご自身にて事前にご用意いただき、撮影日当日お持ち込みください。</strong>（こちらでの手配は一切できかねます）<br><br>
-        <strong>🔶 メイクアイテムのお持ち込みは自由です。</strong>敏感肌の方や合わない化粧品がある場合は普段使用されているメイクアイテムをお持ち込みください。<br><br>
-        ＜ご注意＞ 撮影中のヘアメイクチェンジは承っておりません。
-      </div>
-      <div class="field">
-        <label>氏名<span class="req">必須</span></label>
-        <input type="text" id="name" placeholder="山田 花子">
-        <div class="error-msg" id="err-name">氏名を入力してください</div>
-      </div>
-      <div class="field">
-        <label>撮影日<span class="req">必須</span></label>
-        <input type="date" id="shoot-date">
-        <div class="error-msg" id="err-date">撮影日を選択してください</div>
-      </div>
-      <div class="nav">
-        <button class="btn-next" onclick="nextPage(1)">次へ　→</button>
-      </div>
-    </div>
-
-    <!-- PAGE 2 -->
-    <div class="page" id="page-2">
-      <div class="page-heading">ヘアに関するご質問</div>
-      <div class="page-desc">担当スタイリストが事前に把握するための情報です。</div>
-      <div class="field">
-        <label>髪の長さはどのぐらいですか<span class="req">必須</span></label>
-        <div class="radio-grid col1">
-          <label class="choice-card"><input type="radio" name="hair-length" value="ショート"><div class="choice-label"><div class="choice-dot"></div>ショート</div></label>
-          <label class="choice-card"><input type="radio" name="hair-length" value="ミディアム（肩あたり）"><div class="choice-label"><div class="choice-dot"></div>ミディアム（肩あたり）</div></label>
-          <label class="choice-card"><input type="radio" name="hair-length" value="ロング（肩以下）"><div class="choice-label"><div class="choice-dot"></div>ロング（肩以下）</div></label>
-        </div>
-        <div class="error-msg" id="err-length">選択してください</div>
-      </div>
-      <div class="field">
-        <label>パーマをかけていますか<span class="req">必須</span></label>
-        <div class="radio-grid col1">
-          <label class="choice-card"><input type="radio" name="perm" value="かけていない"><div class="choice-label"><div class="choice-dot"></div>かけていない</div></label>
-          <label class="choice-card"><input type="radio" name="perm" value="髪全体にかけている"><div class="choice-label"><div class="choice-dot"></div>髪全体にかけている</div></label>
-          <label class="choice-card"><input type="radio" name="perm" value="髪の一部にかけている"><div class="choice-label"><div class="choice-dot"></div>髪の一部にかけている</div></label>
-        </div>
-        <div class="error-msg" id="err-perm">選択してください</div>
-      </div>
-      <div class="field">
-        <label>髪の毛量はどのぐらいですか<span class="req">必須</span></label>
-        <div class="radio-grid col3">
-          <label class="choice-card"><input type="radio" name="hair-volume" value="少なめ"><div class="choice-label"><div class="choice-dot"></div>少なめ</div></label>
-          <label class="choice-card"><input type="radio" name="hair-volume" value="普通"><div class="choice-label"><div class="choice-dot"></div>普通</div></label>
-          <label class="choice-card"><input type="radio" name="hair-volume" value="多め"><div class="choice-label"><div class="choice-dot"></div>多め</div></label>
-        </div>
-        <div class="error-msg" id="err-volume">選択してください</div>
-      </div>
-      <div class="field">
-        <label>髪質はどれですか<span class="req">必須</span></label>
-        <div class="radio-grid col3">
-          <label class="choice-card"><input type="radio" name="hair-texture" value="硬い"><div class="choice-label"><div class="choice-dot"></div>硬い</div></label>
-          <label class="choice-card"><input type="radio" name="hair-texture" value="柔らかい"><div class="choice-label"><div class="choice-dot"></div>柔らかい</div></label>
-          <label class="choice-card"><input type="radio" name="hair-texture" value="普通"><div class="choice-label"><div class="choice-dot"></div>普通</div></label>
-        </div>
-        <div class="error-msg" id="err-texture">選択してください</div>
-      </div>
-      <div class="nav">
-        <button class="btn-back" onclick="prevPage(2)">← 戻る</button>
-        <button class="btn-next" onclick="nextPage(2)">次へ　→</button>
-      </div>
-    </div>
-
-    <!-- PAGE 3 -->
-    <div class="page" id="page-3">
-      <div class="page-heading">メイクに関するご質問</div>
-      <div class="page-desc">メイクの仕上がりのために教えてください。</div>
-      <div class="field">
-        <label>肌質はどれですか<span class="req">必須</span></label>
-        <div class="radio-grid col3">
-          <label class="choice-card"><input type="radio" name="skin-type" value="乾燥肌"><div class="choice-label"><div class="choice-dot"></div>乾燥肌</div></label>
-          <label class="choice-card"><input type="radio" name="skin-type" value="脂性肌"><div class="choice-label"><div class="choice-dot"></div>脂性肌</div></label>
-          <label class="choice-card"><input type="radio" name="skin-type" value="混合肌"><div class="choice-label"><div class="choice-dot"></div>混合肌</div></label>
-        </div>
-        <div class="error-msg" id="err-skin">選択してください</div>
-      </div>
-      <div class="field">
-        <label>肌荒れしてしまう化粧品がございましたら、ブランド名・商品名を教えてください<span class="opt">任意</span></label>
-        <input type="text" id="allergy-cosmetic" placeholder="例：〇〇ブランドのファンデーション">
-      </div>
-      <div class="field">
-        <label>撮影当日はコンタクトをされますか<span class="req">必須</span></label>
-        <div class="radio-grid col1">
-          <label class="choice-card"><input type="radio" name="contact" value="はい（ソフトコンタクト）"><div class="choice-label"><div class="choice-dot"></div>はい（ソフトコンタクト）</div></label>
-          <label class="choice-card"><input type="radio" name="contact" value="はい（ハードコンタクト）"><div class="choice-label"><div class="choice-dot"></div>はい（ハードコンタクト）</div></label>
-          <label class="choice-card"><input type="radio" name="contact" value="いいえ"><div class="choice-label"><div class="choice-dot"></div>いいえ</div></label>
-        </div>
-        <div class="error-msg" id="err-contact">選択してください</div>
-      </div>
-      <div class="field">
-        <label>ご希望のメイクイメージはどれですか<span class="req">必須</span></label>
-        <div class="radio-grid">
-          <label class="choice-card"><input type="radio" name="makeup-image" value="ナチュラル"><div class="choice-label"><div class="choice-dot"></div>ナチュラル</div></label>
-          <label class="choice-card"><input type="radio" name="makeup-image" value="エレガント"><div class="choice-label"><div class="choice-dot"></div>エレガント</div></label>
-          <label class="choice-card"><input type="radio" name="makeup-image" value="フェミニン"><div class="choice-label"><div class="choice-dot"></div>フェミニン</div></label>
-          <label class="choice-card"><input type="radio" name="makeup-image" value="スタイリッシュ"><div class="choice-label"><div class="choice-dot"></div>スタイリッシュ</div></label>
-        </div>
-        <div class="error-msg" id="err-makeup">選択してください</div>
-      </div>
-      <div class="nav">
-        <button class="btn-back" onclick="prevPage(3)">← 戻る</button>
-        <button class="btn-next" onclick="nextPage(3)">次へ　→</button>
-      </div>
-    </div>
-
-    <!-- PAGE 4 -->
-    <div class="page" id="page-4">
-      <div class="page-heading">写真のアップロード</div>
-      <div class="page-desc">画像は1枚あたり10GB以下を目安にしてください。アップロードできない場合は写真なしで送信し、公式LINEにてお送りください。</div>
-      <div class="field">
-        <label>【ヘアセットイメージ写真】<span class="opt">最大2枚</span></label>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7">ご希望のヘアセットイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。</div>
-        <div class="upload-area">
-          <input type="file" accept="image/*" multiple onchange="handlePhotos(event,'hair-images',2)">
-          <div class="upload-icon">💇</div>
-          <div class="upload-text"><strong>タップして写真を選ぶ</strong><br>最大2枚</div>
-        </div>
-        <div class="photo-previews" id="pp-hair-images"></div>
-      </div>
-      <div class="field">
-        <label>【メイクイメージ写真】<span class="opt">最大2枚・オプションメイクの方のみ</span></label>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7">ご希望されるメイクイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。</div>
-        <div class="upload-area">
-          <input type="file" accept="image/*" multiple onchange="handlePhotos(event,'makeup-images',2)">
-          <div class="upload-icon">💄</div>
-          <div class="upload-text"><strong>タップして写真を選ぶ</strong><br>最大2枚</div>
-        </div>
-        <div class="photo-previews" id="pp-makeup-images"></div>
-      </div>
-      <div class="field">
-        <label>【髪の毛の長さがわかるお写真】<span class="opt">1枚</span></label>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:8px">「1枚」こちらにアップロードください。</div>
-        <div class="upload-area">
-          <input type="file" accept="image/*" onchange="handlePhotos(event,'length-images',1)">
-          <div class="upload-icon">📷</div>
-          <div class="upload-text"><strong>タップして写真を選ぶ</strong><br>1枚</div>
-        </div>
-        <div class="photo-previews" id="pp-length-images"></div>
-      </div>
-      <div class="field">
-        <label>その他・補足メモ<span class="opt">任意</span></label>
-        <textarea id="memo" placeholder="持ち込みアイテムがある場合、追加でイメージ共有ご希望の場合やお悩み相談がある場合などご自由にお書きください。"></textarea>
-      </div>
-      <div class="nav">
-        <button class="btn-back" onclick="prevPage(4)">← 戻る</button>
-        <button class="btn-next" onclick="nextPage(4)">確認へ　→</button>
-      </div>
-    </div>
-
-    <!-- PAGE 5 確認 -->
-    <div class="page" id="page-5">
-      <div class="page-heading">内容の確認</div>
-      <div class="page-desc">以下の内容で送信します。よろしければ「送信する」を押してください。</div>
-      <div id="confirm-content"></div>
-      <div class="nav">
-        <button class="btn-back" onclick="prevPage(5)">← 戻る</button>
-        <button class="btn-submit" id="btn-submit" onclick="submitForm()">送信する</button>
-      </div>
-    </div>
-
-    <!-- PAGE 6 完了 -->
-    <div class="page" id="page-6">
-      <div class="thankyou">
-        <div class="thankyou-icon">✓</div>
-        <h2>送信完了しました</h2>
-        <p>ご回答ありがとうございます。<br>内容はスタジオが確認し、<br>担当スタイリストに共有いたします。<br><br>当日お会いできるのを<br>楽しみにしております。</p>
-      </div>
-    </div>
-  </div>
+  <div class="main" id="form-main"></div>
 </div>
 
 <!-- ADMIN -->
@@ -380,9 +182,7 @@
     <div class="header-title">管理画面 — 回答一覧</div>
     <div class="header-sub" id="admin-sub">読み込み中…</div>
   </div>
-  <div class="admin-wrap" id="admin-wrap">
-    <div class="loading-box">読み込み中…</div>
-  </div>
+  <div class="admin-wrap" id="admin-wrap"><div class="loading-box">読み込み中…</div></div>
 </div>
 
 <!-- SALON VIEW -->
@@ -391,12 +191,9 @@
     <div class="header-title">ヘアメイク担当者 様</div>
     <div class="header-sub">事前アンケート</div>
   </div>
-  <div class="salon-wrap-inner" id="salon-wrap">
-    <div class="loading-box">読み込み中…</div>
-  </div>
+  <div class="salon-wrap-inner" id="salon-wrap"><div class="loading-box">読み込み中…</div></div>
 </div>
 
-<!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <span class="lightbox-close">✕</span>
   <img id="lightbox-img" src="">
@@ -405,29 +202,21 @@
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbyar4qcJAG0fjg3jTpTOL4kCbayUb9xIUEv5AVTj42HrxxuDc3iIf7sWvE5OBG653b5/exec';
 
-// ============================================================
-// API
-// ============================================================
 async function apiPost(body) {
-  const res = await fetch(API, {
-    method: 'POST',
-    body: JSON.stringify(body),
-  });
+  const res = await fetch(API, { method:'POST', body:JSON.stringify(body) });
   return res.json();
 }
-
 async function apiGet(params) {
-  const url = API + '?' + new URLSearchParams(params).toString();
-  const res = await fetch(url);
+  const res = await fetch(API + '?' + new URLSearchParams(params));
   return res.json();
 }
 
 // ============================================================
 // ROUTING
 // ============================================================
-const params = new URLSearchParams(location.search);
-const mode = params.get('mode');
-const sid  = params.get('sid');
+const urlParams = new URLSearchParams(location.search);
+const mode = urlParams.get('mode');
+const sid  = urlParams.get('sid');
 
 if (sid) {
   document.getElementById('client-app').style.display = 'none';
@@ -437,56 +226,427 @@ if (sid) {
   document.getElementById('client-app').style.display = 'none';
   document.getElementById('admin-app').style.display = 'block';
   initAdmin();
+} else {
+  initForm();
 }
 
 // ============================================================
-// FORM
+// FORM STATE
 // ============================================================
-const photoStore = { 'hair-images': [], 'makeup-images': [], 'length-images': [] };
+let optionType = ''; // 'female', 'male', 'both'
+let currentStep = 0;
+const photoStore = {
+  'f-hair-images':[], 'f-makeup-images':[], 'f-length-images':[],
+  'm-hair-images':[], 'm-length-images':[]
+};
 
-function updateProgress(page) {
-  document.querySelectorAll('.step-item').forEach(el => {
-    const s = parseInt(el.dataset.step);
-    el.classList.remove('active','done');
-    if (s === page) el.classList.add('active');
-    else if (s < page) el.classList.add('done');
-  });
-}
-function showPage(n) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + n).classList.add('active');
-  if (n <= 5) updateProgress(n);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-function prevPage(from) { showPage(from - 1); }
-function nextPage(from) {
-  if (!validatePage(from)) return;
-  if (from === 4) buildConfirm();
-  showPage(from + 1);
+// Step definitions per option type
+function getSteps() {
+  const common1 = ['option', 'basic'];
+  const female = ['f-hair', 'f-makeup', 'f-photo'];
+  const male   = ['m-hair', 'm-photo'];
+  const confirm = ['confirm', 'done'];
+  if (optionType === 'female') return [...common1, ...female, ...confirm];
+  if (optionType === 'male')   return [...common1, ...male,   ...confirm];
+  if (optionType === 'both')   return [...common1, ...female, ...male, ...confirm];
+  return ['option', 'basic', 'confirm', 'done']; // fallback
 }
 
-function validatePage(page) {
+function stepLabels(steps) {
+  const map = {
+    option:'オプション', basic:'基本情報',
+    'f-hair':'女性ヘア', 'f-makeup':'女性メイク', 'f-photo':'女性写真',
+    'm-hair':'男性ヘア', 'm-photo':'男性写真',
+    confirm:'確認', done:'完了'
+  };
+  return steps.map(s => map[s] || s);
+}
+
+function updateProgress() {
+  const steps = getSteps().filter(s => s !== 'done');
+  const labels = stepLabels(steps);
+  const wrap = document.getElementById('progress-steps');
+  wrap.innerHTML = steps.map((s, i) => {
+    const cls = i < currentStep ? 'done' : i === currentStep ? 'active' : '';
+    return `<div class="step-item ${cls}" data-step="${i}">
+      <div class="step-dot">${i+1}</div>
+      <div class="step-label">${labels[i]}</div>
+    </div>`;
+  }).join('');
+}
+
+function initForm() {
+  currentStep = 0;
+  renderStep();
+}
+
+function renderStep() {
+  updateProgress();
+  const steps = getSteps();
+  const step = steps[currentStep];
+  const main = document.getElementById('form-main');
+  main.innerHTML = buildPage(step);
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function goNext() {
+  if (!validateCurrent()) return;
+  const steps = getSteps();
+  // If option selected, recalculate steps
+  if (steps[currentStep] === 'option') {
+    optionType = document.querySelector('input[name="option-type"]:checked')?.value || '';
+    if (!optionType) return;
+  }
+  if (steps[currentStep] === steps[steps.length - 2]) {
+    buildConfirmData();
+  }
+  currentStep++;
+  renderStep();
+}
+
+function goBack() {
+  if (currentStep > 0) { currentStep--; renderStep(); }
+}
+
+// ============================================================
+// PAGE BUILDER
+// ============================================================
+function buildPage(step) {
+  switch(step) {
+    case 'option':   return pageOption();
+    case 'basic':    return pageBasic();
+    case 'f-hair':   return pageFHair();
+    case 'f-makeup': return pageFMakeup();
+    case 'f-photo':  return pageFPhoto();
+    case 'm-hair':   return pageMHair();
+    case 'm-photo':  return pageMPhoto();
+    case 'confirm':  return pageConfirm();
+    case 'done':     return pageDone();
+    default: return '';
+  }
+}
+
+function navBtns(isFirst, isLast) {
+  if (isLast) return `<div class="nav"><button class="btn-submit" id="btn-submit" onclick="submitForm()">送信する</button></div>`;
+  if (isFirst) return `<div class="nav"><button class="btn-next" onclick="goNext()">次へ　→</button></div>`;
+  return `<div class="nav"><button class="btn-back" onclick="goBack()">← 戻る</button><button class="btn-next" onclick="goNext()">次へ　→</button></div>`;
+}
+
+function radioGroup(name, options, cols) {
+  const gridClass = cols === 1 ? 'col1' : cols === 3 ? 'col3' : '';
+  return `<div class="radio-grid ${gridClass}">${options.map(o =>
+    `<label class="choice-card"><input type="radio" name="${name}" value="${o}"><div class="choice-label"><div class="choice-dot"></div>${o}</div></label>`
+  ).join('')}</div>`;
+}
+
+function uploadField(key, label, desc, max, icon) {
+  return `<div class="field">
+    <label>${label}<span class="opt">最大${max}枚</span></label>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7">${desc}</div>
+    <div class="upload-area">
+      <input type="file" accept="image/*" ${max > 1 ? 'multiple' : ''} onchange="handlePhotos(event,'${key}',${max})">
+      <div class="upload-icon">${icon}</div>
+      <div class="upload-text"><strong>タップして写真を選ぶ</strong><br>最大${max}枚</div>
+    </div>
+    <div class="photo-previews" id="pp-${key}"></div>
+  </div>`;
+}
+
+function pageOption() {
+  return `
+    <div class="page-heading">オプションの確認</div>
+    <div class="page-desc">今回ご予約いただいたヘアメイクオプションを選択してください。</div>
+    <div class="field">
+      <label>ヘアメイクオプション<span class="req">必須</span></label>
+      <div class="radio-grid col1">
+        <label class="choice-card"><input type="radio" name="option-type" value="female"><div class="choice-label"><div class="choice-dot"></div>女性ヘアセット＆メイク</div></label>
+        <label class="choice-card"><input type="radio" name="option-type" value="male"><div class="choice-label"><div class="choice-dot"></div>男性ヘアセット</div></label>
+        <label class="choice-card"><input type="radio" name="option-type" value="both"><div class="choice-label"><div class="choice-dot"></div>両方（女性＋男性）</div></label>
+      </div>
+      <div class="error-msg" id="err-option">選択してください</div>
+    </div>
+    ${navBtns(true, false)}`;
+}
+
+function pageBasic() {
+  const isBoth = optionType === 'both';
+  return `
+    <div class="page-heading">基本情報</div>
+    ${isBoth ? `<div class="notice-box both"><strong>📋 お二人揃っている時にご回答ください。</strong><br>このアンケートは途中保存ができません。女性・男性それぞれの情報を続けてご入力いただく必要があります。お二人でご一緒にご回答をお願いいたします。</div>` : ''}
+    <div class="notice-box">
+      ご希望のヘア・メイクのイメージ写真をスマホまたはPCにご準備いただいた上でご回答ください。<br><br>
+      <strong>🔶 つけまつげ、アイプチ・メザイク、金箔やラメ・グリッター、リボン、パールシールなどのアクセサリーはお客様ご自身にて事前にご用意いただき、撮影日当日お持ち込みください。</strong>（こちらでの手配は一切できかねます）<br><br>
+      <strong>🔶 メイクアイテムのお持ち込みは自由です。</strong>敏感肌の方や合わない化粧品がある場合は普段使用されているメイクアイテムをお持ち込みください。<br><br>
+      ＜ご注意＞ 撮影中のヘアメイクチェンジは承っておりません。
+    </div>
+    <div class="field">
+      <label>${isBoth ? '女性のお名前' : 'お名前'}<span class="req">必須</span></label>
+      <input type="text" id="name" placeholder="山田 花子" value="${formData.name||''}">
+      <div class="error-msg" id="err-name">氏名を入力してください</div>
+    </div>
+    ${isBoth ? `<div class="field">
+      <label>男性のお名前<span class="req">必須</span></label>
+      <input type="text" id="name-male" placeholder="山田 太郎" value="${formData.nameMale||''}">
+      <div class="error-msg" id="err-name-male">氏名を入力してください</div>
+    </div>` : ''}
+    <div class="field">
+      <label>撮影日<span class="req">必須</span></label>
+      <input type="date" id="shoot-date" value="${formData.shootDate||''}">
+      <div class="error-msg" id="err-date">撮影日を選択してください</div>
+    </div>
+    ${navBtns(false, false)}`;
+}
+
+function pageFHair() {
+  return `
+    <div class="section-badge female">👩 女性ヘアについて</div>
+    <div class="page-heading">ヘアに関するご質問</div>
+    <div class="page-desc">担当スタイリストが事前に把握するための情報です。</div>
+    <div class="field">
+      <label>髪の長さはどのぐらいですか<span class="req">必須</span></label>
+      ${radioGroup('f-hair-length', ['ショート','ミディアム（肩あたり）','ロング（肩以下）'], 1)}
+      <div class="error-msg" id="err-f-length">選択してください</div>
+    </div>
+    <div class="field">
+      <label>パーマをかけていますか<span class="req">必須</span></label>
+      ${radioGroup('f-perm', ['かけていない','髪全体にかけている','髪の一部にかけている'], 1)}
+      <div class="error-msg" id="err-f-perm">選択してください</div>
+    </div>
+    <div class="field">
+      <label>髪の毛量はどのぐらいですか<span class="req">必須</span></label>
+      ${radioGroup('f-hair-volume', ['少なめ','普通','多め'], 3)}
+      <div class="error-msg" id="err-f-volume">選択してください</div>
+    </div>
+    <div class="field">
+      <label>髪質はどれですか<span class="req">必須</span></label>
+      ${radioGroup('f-hair-texture', ['硬い','柔らかい','普通'], 3)}
+      <div class="error-msg" id="err-f-texture">選択してください</div>
+    </div>
+    ${navBtns(false, false)}`;
+}
+
+function pageFMakeup() {
+  return `
+    <div class="section-badge female">👩 女性メイクについて</div>
+    <div class="page-heading">メイクに関するご質問</div>
+    <div class="page-desc">メイクの仕上がりのために教えてください。</div>
+    <div class="field">
+      <label>肌質はどれですか<span class="req">必須</span></label>
+      ${radioGroup('f-skin-type', ['乾燥肌','脂性肌','混合肌'], 3)}
+      <div class="error-msg" id="err-f-skin">選択してください</div>
+    </div>
+    <div class="field">
+      <label>肌荒れしてしまう化粧品がございましたら、ブランド名・商品名を教えてください<span class="opt">任意</span></label>
+      <input type="text" id="f-allergy-cosmetic" placeholder="例：〇〇ブランドのファンデーション" value="${formData.fAllergyCosm||''}">
+    </div>
+    <div class="field">
+      <label>撮影当日はコンタクトをされますか<span class="req">必須</span></label>
+      ${radioGroup('f-contact', ['はい（ソフトコンタクト）','はい（ハードコンタクト）','いいえ'], 1)}
+      <div class="error-msg" id="err-f-contact">選択してください</div>
+    </div>
+    <div class="field">
+      <label>ご希望のメイクイメージはどれですか<span class="req">必須</span></label>
+      ${radioGroup('f-makeup-image', ['ナチュラル','エレガント','フェミニン','スタイリッシュ'], 2)}
+      <div class="error-msg" id="err-f-makeup">選択してください</div>
+    </div>
+    ${navBtns(false, false)}`;
+}
+
+function pageFPhoto() {
+  return `
+    <div class="section-badge female">👩 女性の写真</div>
+    <div class="page-heading">写真のアップロード</div>
+    <div class="page-desc">画像は1枚あたり10GB以下を目安にしてください。アップロードできない場合は写真なしで送信し、公式LINEにてお送りください。</div>
+    ${uploadField('f-hair-images','【ヘアセットイメージ写真】','ご希望のヘアセットイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。',2,'💇')}
+    ${uploadField('f-makeup-images','【メイクイメージ写真】','ご希望されるメイクイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。',2,'💄')}
+    ${uploadField('f-length-images','【髪の毛の長さがわかるお写真】','「1枚」こちらにアップロードください。',1,'📷')}
+    ${navBtns(false, false)}`;
+}
+
+function pageMHair() {
+  return `
+    <div class="section-badge male">👨 男性ヘアについて</div>
+    <div class="page-heading">ヘアに関するご質問</div>
+    <div class="page-desc">担当スタイリストが事前に把握するための情報です。</div>
+    <div class="field">
+      <label>髪の長さはどのぐらいですか<span class="req">必須</span></label>
+      ${radioGroup('m-hair-length', ['ショート','ミディアム（肩あたり）','ロング（肩以下）'], 1)}
+      <div class="error-msg" id="err-m-length">選択してください</div>
+    </div>
+    <div class="field">
+      <label>パーマをかけていますか<span class="req">必須</span></label>
+      ${radioGroup('m-perm', ['かけていない','髪全体にかけている','髪の一部にかけている'], 1)}
+      <div class="error-msg" id="err-m-perm">選択してください</div>
+    </div>
+    <div class="field">
+      <label>髪の毛量はどのぐらいですか<span class="req">必須</span></label>
+      ${radioGroup('m-hair-volume', ['少なめ','普通','多め'], 3)}
+      <div class="error-msg" id="err-m-volume">選択してください</div>
+    </div>
+    <div class="field">
+      <label>髪質はどれですか<span class="req">必須</span></label>
+      ${radioGroup('m-hair-texture', ['硬い','柔らかい','普通'], 3)}
+      <div class="error-msg" id="err-m-texture">選択してください</div>
+    </div>
+    ${navBtns(false, false)}`;
+}
+
+function pageMPhoto() {
+  const steps = getSteps();
+  const isLast = steps[currentStep + 1] === 'confirm';
+  return `
+    <div class="section-badge male">👨 男性の写真</div>
+    <div class="page-heading">写真のアップロード</div>
+    <div class="page-desc">画像は1枚あたり10GB以下を目安にしてください。アップロードできない場合は写真なしで送信し、公式LINEにてお送りください。</div>
+    ${uploadField('m-hair-images','【ヘアセットイメージ写真】','ご希望のヘアセットイメージのお写真をアップロードください。添付の際は一番小さいサイズに変換をお願いいたします。',2,'💇')}
+    ${uploadField('m-length-images','【髪の毛の長さがわかるお写真】','「1枚」こちらにアップロードください。',1,'📷')}
+    <div class="field">
+      <label>その他・補足メモ<span class="opt">任意</span></label>
+      <textarea id="memo" placeholder="持ち込みアイテムがある場合、追加でイメージ共有ご希望の場合やお悩み相談がある場合などご自由にお書きください。">${formData.memo||''}</textarea>
+    </div>
+    ${navBtns(false, false)}`;
+}
+
+function pageConfirm() {
+  const fd = formData;
+  const isFemale = optionType === 'female' || optionType === 'both';
+  const isMale   = optionType === 'male'   || optionType === 'both';
+  const isBoth   = optionType === 'both';
+
+  let html = `<div class="page-heading">内容の確認</div>
+  <div class="page-desc">以下の内容で送信します。よろしければ「送信する」を押してください。</div>
+  <div class="confirm-block">
+    <div class="confirm-block-title">基本情報</div>
+    <div class="confirm-row"><div class="confirm-key">${isBoth?'女性のお名前':'お名前'}</div><div class="confirm-val">${fd.name||''}</div></div>
+    ${isBoth ? `<div class="confirm-row"><div class="confirm-key">男性のお名前</div><div class="confirm-val">${fd.nameMale||''}</div></div>` : ''}
+    <div class="confirm-row"><div class="confirm-key">撮影日</div><div class="confirm-val">${fd.shootDate||''}</div></div>
+  </div>`;
+
+  if (isFemale) {
+    html += `<div class="confirm-block">
+      <div class="confirm-block-title">女性ヘア</div>
+      <div class="confirm-row"><div class="confirm-key">髪の長さ</div><div class="confirm-val">${fd.fHairLength||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">パーマ</div><div class="confirm-val">${fd.fPerm||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">毛量</div><div class="confirm-val">${fd.fHairVolume||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">髪質</div><div class="confirm-val">${fd.fHairTexture||''}</div></div>
+    </div>
+    <div class="confirm-block">
+      <div class="confirm-block-title">女性メイク</div>
+      <div class="confirm-row"><div class="confirm-key">肌質</div><div class="confirm-val">${fd.fSkinType||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">コンタクト</div><div class="confirm-val">${fd.fContact||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">メイクイメージ</div><div class="confirm-val">${fd.fMakeupImage||''}</div></div>
+      ${fd.fAllergyCosm ? `<div class="confirm-row"><div class="confirm-key">肌荒れ化粧品</div><div class="confirm-val">${fd.fAllergyCosm}</div></div>` : ''}
+    </div>
+    <div class="confirm-block">
+      <div class="confirm-block-title">女性写真</div>
+      <div class="confirm-row"><div class="confirm-key">ヘアイメージ</div><div class="confirm-val">${photoStore['f-hair-images'].length}枚</div></div>
+      <div class="confirm-row"><div class="confirm-key">メイクイメージ</div><div class="confirm-val">${photoStore['f-makeup-images'].length}枚</div></div>
+      <div class="confirm-row"><div class="confirm-key">髪の長さ写真</div><div class="confirm-val">${photoStore['f-length-images'].length}枚</div></div>
+    </div>`;
+  }
+
+  if (isMale) {
+    html += `<div class="confirm-block">
+      <div class="confirm-block-title male">男性ヘア</div>
+      <div class="confirm-row"><div class="confirm-key">髪の長さ</div><div class="confirm-val">${fd.mHairLength||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">パーマ</div><div class="confirm-val">${fd.mPerm||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">毛量</div><div class="confirm-val">${fd.mHairVolume||''}</div></div>
+      <div class="confirm-row"><div class="confirm-key">髪質</div><div class="confirm-val">${fd.mHairTexture||''}</div></div>
+    </div>
+    <div class="confirm-block">
+      <div class="confirm-block-title male">男性写真</div>
+      <div class="confirm-row"><div class="confirm-key">ヘアイメージ</div><div class="confirm-val">${photoStore['m-hair-images'].length}枚</div></div>
+      <div class="confirm-row"><div class="confirm-key">髪の長さ写真</div><div class="confirm-val">${photoStore['m-length-images'].length}枚</div></div>
+    </div>`;
+  }
+
+  if (fd.memo) {
+    html += `<div class="confirm-block">
+      <div class="confirm-block-title">補足メモ</div>
+      <div class="confirm-row"><div class="confirm-key">メモ</div><div class="confirm-val">${fd.memo}</div></div>
+    </div>`;
+  }
+
+  html += navBtns(false, true);
+  return html;
+}
+
+function pageDone() {
+  return `<div class="thankyou">
+    <div class="thankyou-icon">✓</div>
+    <h2>送信完了しました</h2>
+    <p>ご回答ありがとうございます。<br>内容はスタジオが確認し、<br>担当スタイリストに共有いたします。<br><br>当日お会いできるのを<br>楽しみにしております。</p>
+  </div>`;
+}
+
+// ============================================================
+// FORM DATA
+// ============================================================
+let formData = {};
+
+function buildConfirmData() {
+  formData.name      = document.getElementById('name')?.value || formData.name || '';
+  formData.nameMale  = document.getElementById('name-male')?.value || formData.nameMale || '';
+  formData.shootDate = document.getElementById('shoot-date')?.value || formData.shootDate || '';
+  formData.fHairLength  = document.querySelector('input[name="f-hair-length"]:checked')?.value || formData.fHairLength || '';
+  formData.fPerm        = document.querySelector('input[name="f-perm"]:checked')?.value || formData.fPerm || '';
+  formData.fHairVolume  = document.querySelector('input[name="f-hair-volume"]:checked')?.value || formData.fHairVolume || '';
+  formData.fHairTexture = document.querySelector('input[name="f-hair-texture"]:checked')?.value || formData.fHairTexture || '';
+  formData.fSkinType    = document.querySelector('input[name="f-skin-type"]:checked')?.value || formData.fSkinType || '';
+  formData.fAllergyCosm = document.getElementById('f-allergy-cosmetic')?.value || formData.fAllergyCosm || '';
+  formData.fContact     = document.querySelector('input[name="f-contact"]:checked')?.value || formData.fContact || '';
+  formData.fMakeupImage = document.querySelector('input[name="f-makeup-image"]:checked')?.value || formData.fMakeupImage || '';
+  formData.mHairLength  = document.querySelector('input[name="m-hair-length"]:checked')?.value || formData.mHairLength || '';
+  formData.mPerm        = document.querySelector('input[name="m-perm"]:checked')?.value || formData.mPerm || '';
+  formData.mHairVolume  = document.querySelector('input[name="m-hair-volume"]:checked')?.value || formData.mHairVolume || '';
+  formData.mHairTexture = document.querySelector('input[name="m-hair-texture"]:checked')?.value || formData.mHairTexture || '';
+  formData.memo         = document.getElementById('memo')?.value || formData.memo || '';
+}
+
+// ============================================================
+// VALIDATION
+// ============================================================
+function validateCurrent() {
+  const steps = getSteps();
+  const step = steps[currentStep];
+  // Save current inputs before validating
+  buildConfirmData();
+
   let ok = true;
-  const hide = id => document.getElementById(id)?.classList.remove('show');
-  const show = id => { document.getElementById(id)?.classList.add('show'); ok = false; };
-  if (page === 1) {
-    if (!document.getElementById('name').value.trim()) show('err-name'); else hide('err-name');
-    if (!document.getElementById('shoot-date').value) show('err-date'); else hide('err-date');
+  const show = id => { const el = document.getElementById(id); if(el) { el.classList.add('show'); ok = false; } };
+  const hide = id => { const el = document.getElementById(id); if(el) el.classList.remove('show'); };
+
+  if (step === 'option') {
+    if (!document.querySelector('input[name="option-type"]:checked')) show('err-option'); else hide('err-option');
   }
-  if (page === 2) {
-    if (!document.querySelector('input[name="hair-length"]:checked')) show('err-length'); else hide('err-length');
-    if (!document.querySelector('input[name="perm"]:checked')) show('err-perm'); else hide('err-perm');
-    if (!document.querySelector('input[name="hair-volume"]:checked')) show('err-volume'); else hide('err-volume');
-    if (!document.querySelector('input[name="hair-texture"]:checked')) show('err-texture'); else hide('err-texture');
+  if (step === 'basic') {
+    if (!formData.name) show('err-name'); else hide('err-name');
+    if (optionType === 'both' && !formData.nameMale) show('err-name-male'); else hide('err-name-male');
+    if (!formData.shootDate) show('err-date'); else hide('err-date');
   }
-  if (page === 3) {
-    if (!document.querySelector('input[name="skin-type"]:checked')) show('err-skin'); else hide('err-skin');
-    if (!document.querySelector('input[name="contact"]:checked')) show('err-contact'); else hide('err-contact');
-    if (!document.querySelector('input[name="makeup-image"]:checked')) show('err-makeup'); else hide('err-makeup');
+  if (step === 'f-hair') {
+    if (!formData.fHairLength) show('err-f-length'); else hide('err-f-length');
+    if (!formData.fPerm) show('err-f-perm'); else hide('err-f-perm');
+    if (!formData.fHairVolume) show('err-f-volume'); else hide('err-f-volume');
+    if (!formData.fHairTexture) show('err-f-texture'); else hide('err-f-texture');
+  }
+  if (step === 'f-makeup') {
+    if (!formData.fSkinType) show('err-f-skin'); else hide('err-f-skin');
+    if (!formData.fContact) show('err-f-contact'); else hide('err-f-contact');
+    if (!formData.fMakeupImage) show('err-f-makeup'); else hide('err-f-makeup');
+  }
+  if (step === 'm-hair') {
+    if (!formData.mHairLength) show('err-m-length'); else hide('err-m-length');
+    if (!formData.mPerm) show('err-m-perm'); else hide('err-m-perm');
+    if (!formData.mHairVolume) show('err-m-volume'); else hide('err-m-volume');
+    if (!formData.mHairTexture) show('err-m-texture'); else hide('err-m-texture');
   }
   return ok;
 }
 
+// ============================================================
+// PHOTOS
+// ============================================================
 function handlePhotos(e, key, max) {
   Array.from(e.target.files).forEach(f => { if (photoStore[key].length < max) photoStore[key].push(f); });
   renderPreviews(key);
@@ -505,54 +665,12 @@ function renderPreviews(key) {
 }
 function removePhoto(key, i) { photoStore[key].splice(i, 1); renderPreviews(key); }
 
-function buildConfirm() {
-  const name      = document.getElementById('name').value;
-  const date      = document.getElementById('shoot-date').value;
-  const length    = document.querySelector('input[name="hair-length"]:checked')?.value || '';
-  const perm      = document.querySelector('input[name="perm"]:checked')?.value || '';
-  const volume    = document.querySelector('input[name="hair-volume"]:checked')?.value || '';
-  const texture   = document.querySelector('input[name="hair-texture"]:checked')?.value || '';
-  const skin      = document.querySelector('input[name="skin-type"]:checked')?.value || '';
-  const allergy   = document.getElementById('allergy-cosmetic').value || 'なし';
-  const contact   = document.querySelector('input[name="contact"]:checked')?.value || '';
-  const makeup    = document.querySelector('input[name="makeup-image"]:checked')?.value || '';
-  const memo      = document.getElementById('memo').value || 'なし';
-  const hc = photoStore['hair-images'].length;
-  const mc = photoStore['makeup-images'].length;
-  const lc = photoStore['length-images'].length;
-
-  document.getElementById('confirm-content').innerHTML = `
-    <div class="confirm-block">
-      <div class="confirm-block-title">基本情報</div>
-      <div class="confirm-row"><div class="confirm-key">氏名</div><div class="confirm-val">${name}</div></div>
-      <div class="confirm-row"><div class="confirm-key">撮影日</div><div class="confirm-val">${date}</div></div>
-    </div>
-    <div class="confirm-block">
-      <div class="confirm-block-title">ヘア</div>
-      <div class="confirm-row"><div class="confirm-key">髪の長さ</div><div class="confirm-val">${length}</div></div>
-      <div class="confirm-row"><div class="confirm-key">パーマ</div><div class="confirm-val">${perm}</div></div>
-      <div class="confirm-row"><div class="confirm-key">毛量</div><div class="confirm-val">${volume}</div></div>
-      <div class="confirm-row"><div class="confirm-key">髪質</div><div class="confirm-val">${texture}</div></div>
-    </div>
-    <div class="confirm-block">
-      <div class="confirm-block-title">メイク</div>
-      <div class="confirm-row"><div class="confirm-key">肌質</div><div class="confirm-val">${skin}</div></div>
-      <div class="confirm-row"><div class="confirm-key">肌荒れする化粧品</div><div class="confirm-val">${allergy}</div></div>
-      <div class="confirm-row"><div class="confirm-key">コンタクト</div><div class="confirm-val">${contact}</div></div>
-      <div class="confirm-row"><div class="confirm-key">メイクイメージ</div><div class="confirm-val">${makeup}</div></div>
-    </div>
-    <div class="confirm-block">
-      <div class="confirm-block-title">写真・補足</div>
-      <div class="confirm-row"><div class="confirm-key">ヘアイメージ写真</div><div class="confirm-val">${hc}枚</div></div>
-      <div class="confirm-row"><div class="confirm-key">メイクイメージ写真</div><div class="confirm-val">${mc}枚</div></div>
-      <div class="confirm-row"><div class="confirm-key">髪の長さ写真</div><div class="confirm-val">${lc}枚</div></div>
-      <div class="confirm-row"><div class="confirm-key">補足メモ</div><div class="confirm-val">${memo}</div></div>
-    </div>`;
-}
-
+// ============================================================
+// SUBMIT
+// ============================================================
 async function submitForm() {
   const btn = document.getElementById('btn-submit');
-  btn.disabled = true;
+  if (btn) btn.disabled = true;
   document.getElementById('sending-overlay').classList.add('show');
 
   try {
@@ -561,44 +679,51 @@ async function submitForm() {
       r.onload = e => resolve(e.target.result);
       r.readAsDataURL(f);
     });
+    const toB64 = async key => Promise.all(photoStore[key].map(readFile));
 
-    const toB64 = async (key) => Promise.all(photoStore[key].map(readFile));
-
-    const [hairImages, makeupImages, lengthImages] = await Promise.all([
-      toB64('hair-images'),
-      toB64('makeup-images'),
-      toB64('length-images'),
+    const [fHairImgs, fMakeupImgs, fLengthImgs, mHairImgs, mLengthImgs] = await Promise.all([
+      toB64('f-hair-images'), toB64('f-makeup-images'), toB64('f-length-images'),
+      toB64('m-hair-images'), toB64('m-length-images'),
     ]);
 
     const result = await apiPost({
       action: 'submit',
-      name:         document.getElementById('name').value,
-      shootDate:    document.getElementById('shoot-date').value,
-      hairLength:   document.querySelector('input[name="hair-length"]:checked')?.value || '',
-      perm:         document.querySelector('input[name="perm"]:checked')?.value || '',
-      hairVolume:   document.querySelector('input[name="hair-volume"]:checked')?.value || '',
-      hairTexture:  document.querySelector('input[name="hair-texture"]:checked')?.value || '',
-      skinType:     document.querySelector('input[name="skin-type"]:checked')?.value || '',
-      allergyCosm:  document.getElementById('allergy-cosmetic').value,
-      contact:      document.querySelector('input[name="contact"]:checked')?.value || '',
-      makeupImage:  document.querySelector('input[name="makeup-image"]:checked')?.value || '',
-      memo:         document.getElementById('memo').value,
-      hairImages,
-      makeupImages,
-      lengthImages,
+      optionType,
+      name:         formData.name,
+      nameMale:     formData.nameMale,
+      shootDate:    formData.shootDate,
+      fHairLength:  formData.fHairLength,
+      fPerm:        formData.fPerm,
+      fHairVolume:  formData.fHairVolume,
+      fHairTexture: formData.fHairTexture,
+      fSkinType:    formData.fSkinType,
+      fAllergyCosm: formData.fAllergyCosm,
+      fContact:     formData.fContact,
+      fMakeupImage: formData.fMakeupImage,
+      mHairLength:  formData.mHairLength,
+      mPerm:        formData.mPerm,
+      mHairVolume:  formData.mHairVolume,
+      mHairTexture: formData.mHairTexture,
+      memo:         formData.memo,
+      fHairImages:   fHairImgs,
+      fMakeupImages: fMakeupImgs,
+      fLengthImages: fLengthImgs,
+      mHairImages:   mHairImgs,
+      mLengthImages: mLengthImgs,
     });
 
     document.getElementById('sending-overlay').classList.remove('show');
     if (result.ok) {
-      showPage(6);
+      currentStep++;
+      renderStep();
     } else {
-      alert('送信に失敗しました。時間をおいて再度お試しください。\n' + (result.error || ''));
-      btn.disabled = false;
+      alert('送信に失敗しました。時間をおいて再度お試しください。\n' + (result.error||''));
+      if (btn) btn.disabled = false;
     }
   } catch(err) {
     document.getElementById('sending-overlay').classList.remove('show');
     alert('通信エラーが発生しました。インターネット接続をご確認ください。');
-    btn.disabled = false;
+    if (btn) btn.disabled = false;
   }
 }
 
@@ -621,7 +746,7 @@ async function initAdmin() {
 }
 
 function showDashboard() {
-  const newItems = allSubmissions.filter(s => !s.read);
+  const newItems  = allSubmissions.filter(s => !s.read);
   const doneItems = allSubmissions.filter(s => s.read);
   document.getElementById('admin-sub').textContent = `全${allSubmissions.length}件`;
   const wrap = document.getElementById('admin-wrap');
@@ -638,44 +763,74 @@ function showDashboard() {
         <div class="dash-sub">URLをコピー済みの回答</div>
       </div>
     </div>
-    ${newItems.length === 0 ? '<p style="text-align:center;padding:20px 0;color:var(--muted);font-size:13px">新着の回答はありません</p>' : ''}
-  `;
+    ${newItems.length === 0 ? '<p style="text-align:center;padding:20px 0;color:var(--muted);font-size:13px">新着の回答はありません</p>' : ''}`;
+}
+
+function optionLabel(type) {
+  if (type === 'female') return '女性ヘアセット＆メイク';
+  if (type === 'male')   return '男性ヘアセット';
+  if (type === 'both')   return '女性＋男性';
+  return type || '';
+}
+
+function buildAdminPhotoSection(label, imgs) {
+  if (!imgs || imgs.length === 0) return '';
+  return `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">${label}（${imgs.length}枚）</div>
+    <div class="admin-photos">${imgs.map(u => `<div class="admin-photo" onclick="openLightbox('${u}')" style="cursor:pointer"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`;
 }
 
 function buildCard(s) {
   const baseUrl = location.origin + location.pathname;
   const shareUrl = `${baseUrl}?sid=${s.id}`;
   const badge = !s.read ? '<span class="badge-new">NEW</span>' : '';
-  const cardStyle = '';
-  const mkPhotoSection = (label, imgs) => {
-    if (!imgs || imgs.length === 0) return '';
-    return `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">${label}（${imgs.length}枚）</div>
-      <div class="admin-photos">${imgs.map(u => `<div class="admin-photo" onclick="openLightbox('${u}')" style="cursor:pointer"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`;
-  };
-  const imgHtml = [
-    mkPhotoSection('ヘアセットイメージ', s.hairImages),
-    mkPhotoSection('メイクイメージ', s.makeupImages),
-    mkPhotoSection('髪の長さ写真', s.lengthImages),
-  ].filter(Boolean).join('');
-  return `
-  <div class="admin-card" id="card-${s.id}" style="${cardStyle}">
+  const isFemale = s.optionType === 'female' || s.optionType === 'both';
+  const isMale   = s.optionType === 'male'   || s.optionType === 'both';
+  const isBoth   = s.optionType === 'both';
+
+  let body = `<div class="admin-grid">
+    <div><div class="admin-fl">オプション</div>${optionLabel(s.optionType)}</div>
+    <div><div class="admin-fl">撮影日</div>${fmtDate(s.shootDate)}</div>
+    ${isBoth ? `<div><div class="admin-fl">男性名</div>${s.nameMale||''}</div>` : ''}
+  </div>`;
+
+  if (isFemale) {
+    body += `<div class="admin-section-title female">👩 女性ヘア・メイク</div>
+    <div class="admin-grid">
+      <div><div class="admin-fl">髪の長さ</div>${s.fHairLength||''}</div>
+      <div><div class="admin-fl">パーマ</div>${s.fPerm||''}</div>
+      <div><div class="admin-fl">毛量 / 髪質</div>${s.fHairVolume||''} / ${s.fHairTexture||''}</div>
+      <div><div class="admin-fl">肌質</div>${s.fSkinType||''}</div>
+      <div><div class="admin-fl">コンタクト</div>${s.fContact||''}</div>
+      <div><div class="admin-fl">メイクイメージ</div>${s.fMakeupImage||''}</div>
+      ${s.fAllergyCosm ? `<div><div class="admin-fl">肌荒れ化粧品</div>${s.fAllergyCosm}</div>` : ''}
+    </div>
+    ${buildAdminPhotoSection('ヘアセットイメージ', s.fHairImages)}
+    ${buildAdminPhotoSection('メイクイメージ', s.fMakeupImages)}
+    ${buildAdminPhotoSection('髪の長さ写真', s.fLengthImages)}`;
+  }
+
+  if (isMale) {
+    body += `<div class="admin-section-title male">👨 男性ヘア</div>
+    <div class="admin-grid">
+      <div><div class="admin-fl">髪の長さ</div>${s.mHairLength||''}</div>
+      <div><div class="admin-fl">パーマ</div>${s.mPerm||''}</div>
+      <div><div class="admin-fl">毛量 / 髪質</div>${s.mHairVolume||''} / ${s.mHairTexture||''}</div>
+    </div>
+    ${buildAdminPhotoSection('ヘアセットイメージ', s.mHairImages)}
+    ${buildAdminPhotoSection('髪の長さ写真', s.mLengthImages)}`;
+  }
+
+  if (s.memo) {
+    body += `<div style="font-size:12px;color:var(--muted);margin-top:12px">メモ：<span style="color:var(--dark)">${s.memo}</span></div>`;
+  }
+
+  return `<div class="admin-card" id="card-${s.id}">
     <div class="admin-card-head">
       <div><span class="admin-card-name">${s.name} 様</span>${badge}</div>
       <div class="admin-card-meta">${fmtDateTime(s.submittedAt)}</div>
     </div>
     <div class="admin-card-body">
-      <div class="admin-grid">
-        <div><div class="admin-fl">撮影日</div>${fmtDate(s.shootDate)}</div>
-        <div><div class="admin-fl">髪の長さ</div>${s.hairLength}</div>
-        <div><div class="admin-fl">パーマ</div>${s.perm}</div>
-        <div><div class="admin-fl">毛量 / 髪質</div>${s.hairVolume} / ${s.hairTexture}</div>
-        <div><div class="admin-fl">肌質</div>${s.skinType}</div>
-        <div><div class="admin-fl">コンタクト</div>${s.contact}</div>
-        <div><div class="admin-fl">メイクイメージ</div>${s.makeupImage}</div>
-        ${s.allergyCosm ? `<div><div class="admin-fl">肌荒れ化粧品</div>${s.allergyCosm}</div>` : ''}
-      </div>
-      ${s.memo ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px">メモ：<span style="color:var(--dark)">${s.memo}</span></div>` : ''}
-      ${imgHtml}
+      ${body}
       <div class="share-box">
         <div class="share-title">美容室へ共有するURL（この予約専用）</div>
         <div class="share-row">
@@ -688,45 +843,16 @@ function buildCard(s) {
 }
 
 function showList(type) {
-  const items = type === 'new'
-    ? allSubmissions.filter(s => !s.read)
-    : allSubmissions.filter(s => s.read);
+  const items = type === 'new' ? allSubmissions.filter(s => !s.read) : allSubmissions.filter(s => s.read);
   const title = type === 'new' ? '新着・未対応' : '対応済み';
   const wrap = document.getElementById('admin-wrap');
   const cards = items.length === 0
     ? '<p style="text-align:center;padding:40px 0;color:var(--muted);font-size:14px">該当する回答はありません</p>'
     : items.map(buildCard).join('');
-  wrap.innerHTML = `
-    <div class="list-header">
-      <button class="btn-back-list" onclick="showDashboard()">← トップへ</button>
-      <span class="list-title">${title}（${items.length}件）</span>
-    </div>
-    ${cards}
-  `;
-}
-
-function fmtDate(str) {
-  if (!str) return '';
-  try {
-    const d = new Date(str);
-    if (!isNaN(d)) {
-      return d.toLocaleDateString('ja-JP', {year:'numeric', month:'2-digit', day:'2-digit', timeZone:'Asia/Tokyo'});
-    }
-  } catch(e) {}
-  return str.slice(0,10);
-}
-
-function fmtDateTime(str) {
-  if (!str) return '';
-  // すでに "2026/3/23 19:37:01" 形式ならそのまま返す
-  if (!str.includes('GMT')) return str;
-  try {
-    const d = new Date(str);
-    if (!isNaN(d)) {
-      return d.toLocaleString('ja-JP', {year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', timeZone:'Asia/Tokyo'});
-    }
-  } catch(e) {}
-  return str;
+  wrap.innerHTML = `<div class="list-header">
+    <button class="btn-back-list" onclick="showDashboard()">← トップへ</button>
+    <span class="list-title">${title}（${items.length}件）</span>
+  </div>${cards}`;
 }
 
 function copyUrl(url, btn, id) {
@@ -734,14 +860,11 @@ function copyUrl(url, btn, id) {
     btn.textContent = 'コピー完了!';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
-    // 既読にする
     const card = btn.closest('.admin-card');
-    if (card) {
-      const badge = card.querySelector('.badge-new');
-      if (badge) badge.remove();
-      card.style.opacity = '0.6';
-    }
-    fetch(API, { method: 'POST', body: JSON.stringify({ action: 'markRead', id }) });
+    if (card) { const b = card.querySelector('.badge-new'); if (b) b.remove(); }
+    const s = allSubmissions.find(x => x.id === id);
+    if (s) s.read = true;
+    fetch(API, { method:'POST', body:JSON.stringify({ action:'markRead', id }) });
   });
 }
 
@@ -751,55 +874,107 @@ function copyUrl(url, btn, id) {
 async function initSalonView(id) {
   const wrap = document.getElementById('salon-wrap');
   try {
-    const result = await apiGet({ action: 'getOne', id });
+    const result = await apiGet({ action:'getOne', id });
     if (!result.ok) throw new Error(result.error);
     const s = result.data;
+    const isFemale = s.optionType === 'female' || s.optionType === 'both';
+    const isMale   = s.optionType === 'male'   || s.optionType === 'both';
+    const isBoth   = s.optionType === 'both';
 
-    const photoSection = (title, imgs) => {
+    const photoSec = (title, imgs, cls) => {
       if (!imgs || imgs.length === 0) return '';
-      return `
-        <div class="salon-section">
-          <div class="salon-sec-title">${title}（${imgs.length}枚）</div>
-          <div class="salon-photos">${imgs.map(u=>`<div class="salon-photo" onclick="openLightbox('${u}')"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>
-        </div>`;
+      return `<div class="salon-section">
+        <div class="salon-sec-title ${cls}">${title}（${imgs.length}枚）</div>
+        <div class="salon-photos">${imgs.map(u => `<div class="salon-photo" onclick="openLightbox('${u}')"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>
+      </div>`;
     };
 
-    wrap.innerHTML = `
-      <div class="salon-card">
-        <div class="salon-head">
-          <div class="salon-name">${s.name} 様</div>
-          <div class="salon-meta">撮影日：${fmtDate(s.shootDate)}　／　回答日時：${fmtDateTime(s.submittedAt)}</div>
+    let body = `<div class="salon-section">
+      <div class="salon-sec-title common">基本情報</div>
+      <div class="salon-grid">
+        <div><div class="salon-fl">オプション</div><div class="salon-fv">${optionLabel(s.optionType)}</div></div>
+        <div><div class="salon-fl">撮影日</div><div class="salon-fv">${fmtDate(s.shootDate)}</div></div>
+        ${isBoth ? `<div><div class="salon-fl">男性のお名前</div><div class="salon-fv">${s.nameMale||''}</div></div>` : ''}
+      </div>
+    </div>`;
+
+    if (isFemale) {
+      body += `<div class="salon-section">
+        <div class="salon-sec-title female">👩 女性ヘア</div>
+        <div class="salon-grid">
+          <div><div class="salon-fl">髪の長さ</div><div class="salon-fv">${s.fHairLength||''}</div></div>
+          <div><div class="salon-fl">パーマ</div><div class="salon-fv">${s.fPerm||''}</div></div>
+          <div><div class="salon-fl">毛量</div><div class="salon-fv">${s.fHairVolume||''}</div></div>
+          <div><div class="salon-fl">髪質</div><div class="salon-fv">${s.fHairTexture||''}</div></div>
         </div>
-        <div class="salon-body">
-          <div class="salon-section">
-            <div class="salon-sec-title">ヘア</div>
-            <div class="salon-grid">
-              <div><div class="salon-fl">髪の長さ</div><div class="salon-fv">${s.hairLength}</div></div>
-              <div><div class="salon-fl">パーマ</div><div class="salon-fv">${s.perm}</div></div>
-              <div><div class="salon-fl">毛量</div><div class="salon-fv">${s.hairVolume}</div></div>
-              <div><div class="salon-fl">髪質</div><div class="salon-fv">${s.hairTexture}</div></div>
-            </div>
-          </div>
-          <div class="salon-section">
-            <div class="salon-sec-title">メイク</div>
-            <div class="salon-grid">
-              <div><div class="salon-fl">肌質</div><div class="salon-fv">${s.skinType}</div></div>
-              <div><div class="salon-fl">コンタクト</div><div class="salon-fv">${s.contact}</div></div>
-              <div><div class="salon-fl">メイクイメージ</div><div class="salon-fv">${s.makeupImage}</div></div>
-              ${s.allergyCosm ? `<div><div class="salon-fl">肌荒れする化粧品</div><div class="salon-fv">${s.allergyCosm}</div></div>` : ''}
-            </div>
-          </div>
-          ${photoSection('ヘアセットイメージ写真', s.hairImages)}
-          ${photoSection('メイクイメージ写真', s.makeupImages)}
-          ${photoSection('髪の長さがわかる写真', s.lengthImages)}
-          ${s.memo ? `<div class="salon-section"><div class="salon-sec-title">補足メモ</div><div style="font-size:13px;line-height:1.8">${s.memo}</div></div>` : ''}
+      </div>
+      <div class="salon-section">
+        <div class="salon-sec-title female">👩 女性メイク</div>
+        <div class="salon-grid">
+          <div><div class="salon-fl">肌質</div><div class="salon-fv">${s.fSkinType||''}</div></div>
+          <div><div class="salon-fl">コンタクト</div><div class="salon-fv">${s.fContact||''}</div></div>
+          <div><div class="salon-fl">メイクイメージ</div><div class="salon-fv">${s.fMakeupImage||''}</div></div>
+          ${s.fAllergyCosm ? `<div><div class="salon-fl">肌荒れする化粧品</div><div class="salon-fv">${s.fAllergyCosm}</div></div>` : ''}
         </div>
+      </div>
+      ${photoSec('ヘアセットイメージ写真', s.fHairImages, 'female')}
+      ${photoSec('メイクイメージ写真', s.fMakeupImages, 'female')}
+      ${photoSec('髪の長さがわかる写真', s.fLengthImages, 'female')}`;
+    }
+
+    if (isMale) {
+      body += `<div class="salon-section">
+        <div class="salon-sec-title male">👨 男性ヘア</div>
+        <div class="salon-grid">
+          <div><div class="salon-fl">髪の長さ</div><div class="salon-fv">${s.mHairLength||''}</div></div>
+          <div><div class="salon-fl">パーマ</div><div class="salon-fv">${s.mPerm||''}</div></div>
+          <div><div class="salon-fl">毛量</div><div class="salon-fv">${s.mHairVolume||''}</div></div>
+          <div><div class="salon-fl">髪質</div><div class="salon-fv">${s.mHairTexture||''}</div></div>
+        </div>
+      </div>
+      ${photoSec('ヘアセットイメージ写真', s.mHairImages, 'male')}
+      ${photoSec('髪の長さがわかる写真', s.mLengthImages, 'male')}`;
+    }
+
+    if (s.memo) {
+      body += `<div class="salon-section">
+        <div class="salon-sec-title common">補足メモ</div>
+        <div style="font-size:13px;line-height:1.8">${s.memo}</div>
       </div>`;
+    }
+
+    wrap.innerHTML = `<div class="salon-card">
+      <div class="salon-head">
+        <div class="salon-name">${s.name} 様</div>
+        <div class="salon-meta">撮影日：${fmtDate(s.shootDate)}　／　回答日時：${fmtDateTime(s.submittedAt)}</div>
+      </div>
+      <div class="salon-body">${body}</div>
+    </div>`;
   } catch(err) {
     wrap.innerHTML = '<p style="text-align:center;padding:60px 0;color:var(--muted);font-size:14px">このURLは無効か、読み込みに失敗しました。</p>';
   }
 }
 
+// ============================================================
+// HELPERS
+// ============================================================
+function fmtDate(str) {
+  if (!str) return '';
+  try {
+    const d = new Date(str);
+    if (!isNaN(d)) return d.toLocaleDateString('ja-JP', {year:'numeric',month:'2-digit',day:'2-digit',timeZone:'Asia/Tokyo'});
+  } catch(e) {}
+  return str.slice(0,10);
+}
+function fmtDateTime(str) {
+  if (!str) return '';
+  if (!str.includes('GMT')) return str;
+  try {
+    const d = new Date(str);
+    if (!isNaN(d)) return d.toLocaleString('ja-JP', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Tokyo'});
+  } catch(e) {}
+  return str;
+}
 function openLightbox(src) {
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
