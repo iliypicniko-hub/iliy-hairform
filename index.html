@@ -650,7 +650,7 @@ function buildCard(s) {
   const mkPhotoSection = (label, imgs) => {
     if (!imgs || imgs.length === 0) return '';
     return `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">${label}（${imgs.length}枚）</div>
-      <div class="admin-photos">${imgs.map(u => `<div class="admin-photo"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`;
+      <div class="admin-photos">${imgs.map(u => `<div class="admin-photo" onclick="openLightbox('${u}')" style="cursor:pointer"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`;
   };
   const imgHtml = [
     mkPhotoSection('ヘアセットイメージ', s.hairImages),
