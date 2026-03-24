@@ -624,7 +624,7 @@ async function initAdmin() {
       <div class="admin-card">
         <div class="admin-card-head">
           <div><span class="admin-card-name">${s.name} 様</span>${badge}</div>
-          <div class="admin-card-meta">${s.submittedAt}</div>
+          <div class="admin-card-meta">${fmtDateTime(s.submittedAt)}</div>
         </div>
         <div class="admin-card-body">
           <div class="admin-grid">
@@ -658,13 +658,25 @@ async function initAdmin() {
 
 function fmtDate(str) {
   if (!str) return '';
-  // "2026/3/23 19:37:01" or ISO format -> just return as-is if already clean
-  if (str.includes('GMT') || str.includes('00:00:00')) {
-    try {
-      const d = new Date(str);
-      return d.toLocaleDateString('ja-JP', {year:'numeric',month:'2-digit',day:'2-digit',timeZone:'Asia/Tokyo'});
-    } catch(e) { return str; }
-  }
+  try {
+    const d = new Date(str);
+    if (!isNaN(d)) {
+      return d.toLocaleDateString('ja-JP', {year:'numeric', month:'2-digit', day:'2-digit', timeZone:'Asia/Tokyo'});
+    }
+  } catch(e) {}
+  return str.slice(0,10);
+}
+
+function fmtDateTime(str) {
+  if (!str) return '';
+  // すでに "2026/3/23 19:37:01" 形式ならそのまま返す
+  if (!str.includes('GMT')) return str;
+  try {
+    const d = new Date(str);
+    if (!isNaN(d)) {
+      return d.toLocaleString('ja-JP', {year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', timeZone:'Asia/Tokyo'});
+    }
+  } catch(e) {}
   return str;
 }
 
@@ -699,7 +711,7 @@ async function initSalonView(id) {
       <div class="salon-card">
         <div class="salon-head">
           <div class="salon-name">${s.name} 様</div>
-          <div class="salon-meta">撮影日：${fmtDate(s.shootDate)}　／　回答日時：${s.submittedAt}</div>
+          <div class="salon-meta">撮影日：${fmtDate(s.shootDate)}　／　回答日時：${fmtDateTime(s.submittedAt)}</div>
         </div>
         <div class="salon-body">
           <div class="salon-section">
