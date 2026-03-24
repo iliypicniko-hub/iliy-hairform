@@ -610,11 +610,16 @@ async function initAdmin() {
     wrap.innerHTML = all.map(s => {
       const shareUrl = `${baseUrl}?sid=${s.id}`;
       const badge = !s.read ? '<span class="badge-new">NEW</span>' : '';
-      const allImgs = [...(s.hairImages||[]), ...(s.makeupImages||[]), ...(s.lengthImages||[])];
-      const imgHtml = allImgs.length > 0
-        ? `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">写真（全${allImgs.length}枚）</div>
-           <div class="admin-photos">${allImgs.map(u=>`<div class="admin-photo"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`
-        : '';
+      const mkPhotoSection = (label, imgs) => {
+        if (!imgs || imgs.length === 0) return '';
+        return `<div style="font-size:11px;color:var(--muted);margin:10px 0 6px">${label}（${imgs.length}枚）</div>
+          <div class="admin-photos">${imgs.map(u=>`<div class="admin-photo"><img src="${u}" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>`).join('')}</div>`;
+      };
+      const imgHtml = [
+        mkPhotoSection('ヘアセットイメージ', s.hairImages),
+        mkPhotoSection('メイクイメージ', s.makeupImages),
+        mkPhotoSection('髪の長さ写真', s.lengthImages),
+      ].filter(Boolean).join('');
       return `
       <div class="admin-card">
         <div class="admin-card-head">
