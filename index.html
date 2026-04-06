@@ -212,6 +212,18 @@ async function apiGet(params) {
 }
 
 // ============================================================
+// FORM STATE
+// ============================================================
+let optionType = '';
+let currentStep = 0;
+let formData = {};
+let allSubmissions = [];
+const photoStore = {
+  'f-hair-images':[], 'f-makeup-images':[], 'f-length-images':[],
+  'm-hair-images':[], 'm-length-images':[]
+};
+
+// ============================================================
 // ROUTING
 // ============================================================
 const urlParams = new URLSearchParams(location.search);
@@ -229,16 +241,6 @@ if (sid) {
 } else {
   initForm();
 }
-
-// ============================================================
-// FORM STATE
-// ============================================================
-let optionType = ''; // 'female', 'male', 'both'
-let currentStep = 0;
-const photoStore = {
-  'f-hair-images':[], 'f-makeup-images':[], 'f-length-images':[],
-  'm-hair-images':[], 'm-length-images':[]
-};
 
 // Step definitions per option type
 function getSteps() {
@@ -579,10 +581,6 @@ function pageDone() {
   </div>`;
 }
 
-// ============================================================
-// FORM DATA
-// ============================================================
-let formData = {};
 
 function buildConfirmData() {
   formData.name      = document.getElementById('name')?.value || formData.name || '';
@@ -730,8 +728,6 @@ async function submitForm() {
 // ============================================================
 // ADMIN
 // ============================================================
-let allSubmissions = [];
-
 async function initAdmin() {
   const wrap = document.getElementById('admin-wrap');
   try {
