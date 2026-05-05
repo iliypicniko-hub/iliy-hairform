@@ -731,7 +731,7 @@ async function submitForm() {
 async function initAdmin() {
   const wrap = document.getElementById('admin-wrap');
   try {
-    const result = await apiGet({ action: 'getAll' });
+    const result = await apiGet({ action: 'getAllMeta' });
     if (!result.ok) throw new Error(result.error);
     allSubmissions = result.data.reverse();
     showDashboard();
@@ -815,10 +815,7 @@ function buildCard(s) {
       <div><div class="admin-fl">コンタクト</div>${s.fContact||''}</div>
       <div><div class="admin-fl">メイクイメージ</div>${s.fMakeupImage||''}</div>
       ${s.fAllergyCosm ? `<div><div class="admin-fl">肌荒れ化粧品</div>${s.fAllergyCosm}</div>` : ''}
-    </div>
-    ${buildAdminPhotoSection('ヘアセットイメージ', s.fHairImages)}
-    ${buildAdminPhotoSection('メイクイメージ', s.fMakeupImages)}
-    ${buildAdminPhotoSection('髪の長さ写真', s.fLengthImages)}`;
+    </div>`;
   }
 
   if (isMale) {
@@ -827,14 +824,19 @@ function buildCard(s) {
       <div><div class="admin-fl">髪の長さ</div>${s.mHairLength||''}</div>
       <div><div class="admin-fl">パーマ</div>${s.mPerm||''}</div>
       <div><div class="admin-fl">毛量 / 髪質</div>${s.mHairVolume||''} / ${s.mHairTexture||''}</div>
-    </div>
-    ${buildAdminPhotoSection('ヘアセットイメージ', s.mHairImages)}
-    ${buildAdminPhotoSection('髪の長さ写真', s.mLengthImages)}`;
+    </div>`;
   }
 
   if (s.memo) {
     body += `<div style="font-size:12px;color:var(--muted);margin-top:12px">メモ：<span style="color:var(--dark)">${s.memo}</span></div>`;
   }
+
+  // 写真は遅延読み込み
+  body += `<div id="photos-${s.id}" style="margin-top:12px">
+    <button onclick="loadPhotos('${s.id}', this)" style="width:100%;padding:10px;background:var(--cream);border:1px dashed var(--border);border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--muted);cursor:pointer;">
+      📷 写真を読み込む
+    </button>
+  </div>`;
 
   return `<div class="admin-card" id="card-${s.id}">
     <div class="admin-card-head">
@@ -852,6 +854,33 @@ function buildCard(s) {
       </div>
     </div>
   </div>`;
+}
+
+async function loadPhotos(id, btn) {
+  btn.textContent = '読み込み中…';
+  btn.disabled = true;
+  try {
+    const result = await apiGet({ action: 'getOne', id });
+    if (!result.ok) throw new Error(result.error);
+    const s = result.data;
+    const wrap = document.getElementById('photos-' + id);
+    const isFemale = s.optionType === 'female' || s.optionType === 'both';
+    const isMale   = s.optionType === 'male'   || s.optionType === 'both';
+    let html = '';
+    if (isFemale) {
+      html += buildAdminPhotoSection('ヘアセットイメージ（女性）', s.fHairImages);
+      html += buildAdminPhotoSection('メイクイメージ（女性）', s.fMakeupImages);
+      html += buildAdminPhotoSection('髪の長さ写真（女性）', s.fLengthImages);
+    }
+    if (isMale) {
+      html += buildAdminPhotoSection('ヘアセットイメージ（男性）', s.mHairImages);
+      html += buildAdminPhotoSection('髪の長さ写真（男性）', s.mLengthImages);
+    }
+    wrap.innerHTML = html || '<p style="font-size:12px;color:var(--muted)">写真なし</p>';
+  } catch(e) {
+    btn.textContent = '読み込み失敗。再試行';
+    btn.disabled = false;
+  }
 }
 
 function showList(type) {
